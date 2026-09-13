@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/spacing_s">
+
+    <FrameLayout
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/bg_health_icon"
+        android:backgroundTint="@color/soft_lavender">
+
+        <ImageView
+            android:id="@+id/profile_menu_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_notifications"
+            app:tint="@color/primary_coral" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/profile_menu_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_m"
+        android:layout_weight="1"
+        android:textColor="@color/primary_text"
+        android:textSize="15sp"
+        tools:text="Notification Settings" />
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_chevron_right"
+        app:tint="@color/border_color" />
+</LinearLayout>

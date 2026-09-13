@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/spacing_s"
+    android:clickable="true"
+    android:focusable="true"
+    style="@style/Widget.PetCare.Card.Standard"
+    app:cardElevation="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/spacing_m">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_calendar"
+            app:tint="@color/primary_coral" />
+
+        <TextView
+            android:id="@+id/tv_routine_preview_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_m"
+            android:layout_weight="1"
+            android:textAppearance="@style/TextAppearance.PetCare.CardTitle"
+            tools:text="Morning Walk" />
+
+        <TextView
+            android:id="@+id/tv_routine_preview_frequency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.PetCare.Caption"
+            tools:text="Daily" />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="@dimen/spacing_s"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_chevron_right"
+            app:tint="@color/border_color" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

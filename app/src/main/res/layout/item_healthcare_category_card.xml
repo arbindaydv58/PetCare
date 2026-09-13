@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <!-- Fully circular chip (was a rounded-square tile) - reuses the existing
+         bg_circle_white oval drawable, which HealthcareListFragment already tints per
+         category via backgroundTintList, exactly as it did on the rounded-square version. -->
+    <FrameLayout
+        android:id="@+id/category_card_icon_container"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_circle_white">
+
+        <ImageView
+            android:id="@+id/category_card_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_vaccines"
+            app:tint="@color/primary_text" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/category_card_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:textAppearance="@style/TextAppearance.PetCare.Caption"
+        tools:text="Vax" />
+</LinearLayout>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_home_header"
+            android:paddingHorizontal="@dimen/spacing_xs"
+            android:paddingTop="44dp"
+            android:paddingBottom="@dimen/spacing_s">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/action_go_back"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/primary_text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/weekly_checklist_title"
+                android:textAppearance="@style/TextAppearance.PetCare.ScreenTitle" />
+
+            <ImageButton
+                android:id="@+id/btn_add_task_toolbar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/add_task_fab_content_description"
+                android:src="@drawable/ic_add"
+                app:tint="@color/primary_coral" />
+        </RelativeLayout>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/spacing_m"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/weekly_day_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/spacing_l" />
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/spacing_l"
+            android:paddingBottom="@dimen/spacing_s">
+
+            <TextView
+                android:id="@+id/weekly_date_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.PetCare.ScreenTitle"
+                tools:text="Tuesday, Sep 8" />
+
+            <TextView
+                android:id="@+id/weekly_task_count_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.PetCare.BodySecondary"
+                tools:text="4 tasks scheduled for this day" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/weekly_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_s"
+                android:visibility="gone"
+                app:indicatorColor="@color/primary_coral"
+                app:trackColor="@color/white"
+                app:trackCornerRadius="4dp"
+                app:trackThickness="8dp" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_weekly_tasks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingHorizontal="@dimen/spacing_l"
+                android:paddingBottom="80dp"
+                android:visibility="gone"
+                tools:listitem="@layout/item_care_task" />
+
+            <TextView
+                android:id="@+id/empty_weekly_tasks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/empty_weekly_checklist"
+                android:textAppearance="@style/TextAppearance.PetCare.Body"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/weekly_tasks_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/primary_coral"
+                android:visibility="gone" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_add_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/spacing_l"
+        android:text="@string/add_task_fab_content_description"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/primary_coral"
+        app:icon="@drawable/ic_add"
+        app:iconTint="@color/white" />
+
+</FrameLayout>

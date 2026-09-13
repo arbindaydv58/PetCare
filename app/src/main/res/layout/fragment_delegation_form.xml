@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_home_header"
+        android:paddingHorizontal="@dimen/spacing_xs"
+        android:paddingTop="44dp"
+        android:paddingBottom="@dimen/spacing_s">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/action_go_back"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/primary_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/delegation_form_title"
+            android:textAppearance="@style/TextAppearance.PetCare.ScreenTitle" />
+
+        <ImageButton
+            android:id="@+id/btn_delegation_history"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/history_content_description"
+            android:src="@drawable/ic_history"
+            app:tint="@color/primary_coral" />
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_l">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_l"
+                android:text="@string/delegation_subtitle"
+                android:textAppearance="@style/TextAppearance.PetCare.BodySecondary" />
+
+            <!-- Delegation Details -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.PetCare.Card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_l">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_m"
+                        android:text="@string/section_delegation_details"
+                        android:textAppearance="@style/TextAppearance.PetCare.CardTitle" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/label_target_pet"
+                        style="@style/Widget.PetCare.TextInputLayout.ExposedDropdownMenu">
+
+                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                            android:id="@+id/sp_delegation_pet"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:popupBackground="@drawable/bg_dropdown_popup" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_m"
+                        android:hint="@string/label_date_of_care"
+                        app:endIconDrawable="@drawable/ic_calendar"
+                        app:endIconMode="custom"
+                        style="@style/Widget.PetCare.TextInputLayout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/btn_delegation_date"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:inputType="none" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_l" />
+
+            <!-- Tasks to Include -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_s"
+                android:text="@string/tasks_to_include_heading"
+                android:textAppearance="@style/TextAppearance.PetCare.SectionHeader" />
+
+            <TextView
+                android:id="@+id/tv_no_delegation_tasks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/spacing_l"
+                android:text="@string/no_tasks_for_date"
+                android:textAppearance="@style/TextAppearance.PetCare.BodySecondary"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/sp_delegation_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <TextView
+                android:id="@+id/error_delegation_tasks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.PetCare.Error"
+                android:visibility="gone"
+                tools:text="@string/error_no_tasks_selected"
+                tools:visibility="visible" />
+
+            <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_l" />
+
+            <!-- Recipient -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.PetCare.Card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_l">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_m"
+                        android:text="@string/section_recipient"
+                        android:textAppearance="@style/TextAppearance.PetCare.CardTitle" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/label_recipient_name"
+                        style="@style/Widget.PetCare.TextInputLayout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_delegation_recipient_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapWords" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_m"
+                        android:hint="@string/label_recipient_phone"
+                        style="@style/Widget.PetCare.TextInputLayout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_delegation_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="phone" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/error_delegation_phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_xs"
+                        android:textAppearance="@style/TextAppearance.PetCare.Error"
+                        android:visibility="gone"
+                        tools:text="@string/error_recipient_phone_required"
+                        tools:visibility="visible" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_l" />
+
+            <!-- Message Preview -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/message_preview_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/soft_coral"
+                app:cardCornerRadius="@dimen/corner_radius_card"
+                app:cardElevation="0dp"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_l">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/message_preview_label"
+                        android:textColor="@color/primary_coral"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_delegation_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_s"
+                        android:lineSpacingExtra="4sp"
+                        android:textColor="@color/primary_text"
+                        android:textSize="13sp"
+                        tools:text="Hi Asmita,\n\nYou have been asked to help care for Max on Tuesday, 8 September 2026.\n\nTasks:\n• Feeding — 8:00 AM\n\nThank you!" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_l" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_send_sms"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/auth_button_height"
+                android:text="@string/action_send_via_sms"
+                app:icon="@drawable/ic_send"
+                app:iconTint="@color/white"
+                style="@style/Widget.PetCare.Button.Primary" />
+
+            <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_xl" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

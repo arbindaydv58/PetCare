@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+
+    <application
+        android:name=".PetCareApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/petcare_logo"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/petcare_logo"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.PetCare"
+        android:networkSecurityConfig="@xml/network_security_config">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <!-- Deep link support -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="petcare" />
+            </intent-filter>
+        </activity>
+
+        <!-- Stage 1 of the Compose -> XML migration: XML Login/Register/Forgot Password.
+             Not the launcher activity - MainActivity launches this when signed out, and this
+             launches MainActivity back once AuthViewModel reports isAuthenticated. -->
+        <activity
+            android:name=".ui.screens.auth.AuthActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Stage 2 of the Compose -> XML migration: XML Home. Not the launcher activity -
+             AuthActivity (after sign-in) and MainActivity (cold start while signed in) both
+             hand off here; HomeFragment hands off to MainActivity for every other, still-
+             Compose destination. -->
+        <activity
+            android:name=".ui.screens.home.HomeActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Stage 3 of the Compose -> XML migration: XML Pet Management (My Pets, Add/Edit
+             Pet, Pet Details). Not the launcher activity - HomeFragment and the Compose
+             bottom bar hand off here; its fragments hand off to MainActivity for any
+             not-yet-migrated destination (Care Routines/Tasks, Healthcare, Expenses,
+             Delegation). android:windowSoftInputMode="adjustResize" matters here specifically
+             because the Add/Edit Pet form is a long scrolling text-heavy form. -->
+        <activity
+            android:name=".ui.screens.pet.PetsActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Stage 4 of the Compose -> XML migration: XML Care Routines (My Routines, Add/Edit
+             Routine, Routine Details). Not the launcher activity - the Stage 3 Pet Details
+             screen and My Routines' own list hand off here; RoutineDetailsFragment hands off
+             to MainActivity for the not-yet-migrated Care Task add/edit form. -->
+        <activity
+            android:name=".ui.screens.pet.RoutinesActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Stage 6 of the Compose -> XML migration: XML Care Tasks + Daily/Weekly Checklist
+             (Add/Edit Task, Daily Checklist, Weekly Checklist). Not the launcher activity -
+             HomeFragment's "See all tasks" / bottom nav Care, Pet Details' and Routine
+             Details' "+ Add Task" and task rows, and the Compose bottom bar's Care tab all
+             hand off here; its fragments hand off to MainActivity only for the not-yet-
+             migrated Delegate action. -->
+        <activity
+            android:name=".ui.screens.checklist.TasksActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Stage 7 of the Compose -> XML migration: XML Healthcare Management (Healthcare
+             Records list, Add/Edit Record, Record Details). Not the launcher activity - Pet
+             Details' Healthcare card/"+ Add Healthcare" button, Home's "Vet Care" chip/bottom
+             nav Health tab, and the Compose bottom bar's Health tab all hand off here. -->
+        <activity
+            android:name=".ui.screens.healthcare.HealthcareActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Stage 8 of the Compose -> XML migration: XML Expenses + Budget (Expenses list,
+             Add/Edit Expense, Expense Details, Set/Edit Budget). Not the launcher activity -
+             Pet Details' Expenses card/"+ Add Expense" button and Home's manage-expenses
+             button both hand off here. -->
+        <activity
+            android:name=".ui.screens.expenses.ExpensesActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Stage 9 of the Compose -> XML migration: XML SMS Delegation (Delegate Care form,
+             Delegation History). Not the launcher activity - Pet Details' "Delegate Care"
+             button and the Daily/Weekly Checklist's per-task "Delegate" action both hand off
+             here. -->
+        <activity
+            android:name=".ui.screens.delegation.DelegationActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Stage 10 of the Compose -> XML migration: XML Notification Settings. Not the
+             launcher activity - Home's notification-bell button hands off here (previously it
+             opened Profile instead, a documented mismatch fixed now that this screen exists). -->
+        <activity
+            android:name=".ui.screens.settings.NotificationSettingsActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Stage 11 of the Compose -> XML migration: XML Profile. Not the launcher activity -
+             Home's bottom nav Profile tab and the Compose bottom bar's Profile tab both hand
+             off here. -->
+        <activity
+            android:name=".ui.screens.profile.ProfileActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <receiver android:name=".receivers.NotificationReceiver" android:exported="false" />
+        <receiver android:name=".receivers.BootReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

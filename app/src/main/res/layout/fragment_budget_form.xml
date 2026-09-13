@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_home_header"
+        android:paddingHorizontal="@dimen/spacing_xs"
+        android:paddingTop="44dp"
+        android:paddingBottom="@dimen/spacing_s">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/action_go_back"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/primary_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/budget_form_title"
+            android:textAppearance="@style/TextAppearance.PetCare.ScreenTitle" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_xl">
+
+        <FrameLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/bg_health_icon">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_wallet"
+                app:tint="@color/primary_coral" />
+        </FrameLayout>
+
+        <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_l" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/budget_setup_prompt"
+            android:textAppearance="@style/TextAppearance.PetCare.Body" />
+
+        <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_l" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.PetCare.Card">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_l"
+                android:hint="@string/label_budget_amount"
+                app:prefixText="@string/currency_prefix_npr"
+                style="@style/Widget.PetCare.TextInputLayout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_budget_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/error_budget_amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_s"
+            android:textAppearance="@style/TextAppearance.PetCare.Error"
+            android:visibility="gone"
+            tools:text="Please enter a valid amount"
+            tools:visibility="visible" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_save_budget"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/auth_button_height"
+            android:text="@string/action_save_budget"
+            style="@style/Widget.PetCare.Button.Primary" />
+    </LinearLayout>
+</LinearLayout>

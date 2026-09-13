@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_home_header"
+            android:paddingHorizontal="@dimen/spacing_xs"
+            android:paddingTop="44dp"
+            android:paddingBottom="@dimen/spacing_s">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/action_go_back"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/primary_text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/healthcare_list_title"
+                android:textAppearance="@style/TextAppearance.PetCare.ScreenTitle" />
+
+            <ImageButton
+                android:id="@+id/btn_add_healthcare"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/add_healthcare_content_description"
+                android:src="@drawable/ic_add"
+                android:visibility="gone"
+                app:tint="@color/primary_coral"
+                tools:visibility="visible" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/healthcare_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/spacing_l"
+            android:paddingVertical="@dimen/spacing_xs"
+            android:textAppearance="@style/TextAppearance.PetCare.BodySecondary"
+            tools:text="Health records for Max" />
+
+        <!-- Quick category cards - decorative only, matching the Compose HealthcareCategoryRow
+             (no click behavior there either). -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/spacing_s"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/spacing_l">
+
+                <include layout="@layout/item_healthcare_category_card"
+                    android:id="@+id/category_card_vax" />
+
+                <include layout="@layout/item_healthcare_category_card"
+                    android:id="@+id/category_card_meds"
+                    android:layout_marginStart="@dimen/spacing_l" />
+
+                <include layout="@layout/item_healthcare_category_card"
+                    android:id="@+id/category_card_visits"
+                    android:layout_marginStart="@dimen/spacing_l" />
+
+                <include layout="@layout/item_healthcare_category_card"
+                    android:id="@+id/category_card_allergy"
+                    android:layout_marginStart="@dimen/spacing_l" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/spacing_xs"
+            android:scrollbars="none">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/healthcare_filter_chips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/spacing_l"
+                app:singleLine="true"
+                app:singleSelection="true" />
+        </HorizontalScrollView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_healthcare"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingHorizontal="@dimen/spacing_l"
+                android:paddingBottom="@dimen/spacing_xl"
+                android:visibility="gone"
+                tools:listitem="@layout/item_healthcare_record" />
+
+            <LinearLayout
+                android:id="@+id/tv_empty_healthcare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_l"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:alpha="0.4"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_medical"
+                    app:tint="@color/primary_coral" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_m"
+                    android:text="@string/empty_healthcare_title"
+                    android:textAppearance="@style/TextAppearance.PetCare.SectionHeader" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="@string/empty_healthcare_description"
+                    android:textAppearance="@style/TextAppearance.PetCare.BodySecondary" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_empty_add_record"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_m"
+                    android:text="@string/action_add_record"
+                    android:visibility="gone"
+                    style="@style/Widget.PetCare.Button.Primary"
+                    tools:visibility="visible" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progress_healthcare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/primary_coral"
+                android:visibility="gone" />
+        </FrameLayout>
+    </LinearLayout>
+</FrameLayout>

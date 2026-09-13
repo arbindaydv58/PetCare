@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/spacing_xl">
+
+        <!-- 1. Header - a distinct rounded-bottom hero panel rather than plain text sitting
+             directly on the page background, so Home reads as "header section" + "content
+             below" instead of one continuous flat surface. -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_home_header"
+            android:paddingHorizontal="@dimen/spacing_l"
+            android:paddingTop="32dp"
+            android:paddingBottom="@dimen/spacing_l">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/home_notification_button"
+                android:orientation="vertical">
+
+                <!-- paddingTop kept as a fixed 10dp: a documented OEM-font-clipping
+                     workaround (see README "Known Issues"), not a spacing token. -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:text="@string/home_welcome_prefix"
+                    android:textAppearance="@style/TextAppearance.PetCare.BodySecondary" />
+
+                <!-- The dynamic greeting (existing FirebaseAuth displayName lookup in
+                     HomeFragment.onViewCreated) carries the visual weight here - the small
+                     static prefix above it never references a name, so the parent's real
+                     name is never duplicated or contradicted between the two lines. -->
+                <TextView
+                    android:id="@+id/home_greeting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textAppearance="@style/TextAppearance.PetCare.ScreenTitle"
+                    android:textSize="24sp"
+                    tools:text="Hello, Arbinda 👋" />
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/home_notification_button"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/corner_radius_pill"
+                app:cardElevation="1dp">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/home_notification_content_description"
+                    android:src="@drawable/ic_notifications"
+                    app:tint="@color/primary_coral" />
+            </com.google.android.material.card.MaterialCardView>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/spacing_l">
+
+            <!-- 2. Pet section: pager, empty states, page indicator - the hero element,
+                 placed first so the pet is the most visually prominent thing on the
+                 screen. ViewPager2 requires each page's root view to be match_parent (it
+                 throws IllegalStateException otherwise), which in turn means ViewPager2
+                 itself cannot be wrap_content - it needs a concrete height to hand down
+                 to its pages. 360dp comfortably fits item_pet_page.xml's fixed 240dp
+                 image plus its name/species text below; kept as-is (not converted to a
+                 ratio-based height) since that would change ViewPager2's existing sizing
+                 behavior rather than just its appearance. -->
+            <FrameLayout
+                android:id="@+id/home_pets_section"
+                android:layout_width="match_parent"
+                android:layout_height="360dp">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/pet_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/pet_page_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/home_empty_pets"
+                layout="@layout/view_empty_state"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/home_empty_filtered_pets"
+                layout="@layout/view_empty_state"
+                android:visibility="gone" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_l" />
+
+            <!-- 3. Category filter chips -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:singleLine="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_dogs"
+                        style="@style/Widget.PetCare.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/category_dogs" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_cats"
+                        style="@style/Widget.PetCare.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="true"
+                        android:text="@string/category_cats" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_vet_care"
+                        style="@style/Widget.PetCare.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="false"
+                        android:text="@string/category_vet_care" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_food"
+                        style="@style/Widget.PetCare.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checkable="false"
+                        android:text="@string/category_food" />
+                </com.google.android.material.chip.ChipGroup>
+            </HorizontalScrollView>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_l" />
+
+            <!-- 4. Quick metrics row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/spacing_m"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/soft_blue"
+                    app:cardCornerRadius="@dimen/corner_radius_card"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_m">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size_small"
+                            android:layout_height="@dimen/icon_size_small"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_monitor_weight"
+                            app:tint="@color/info_blue" />
+
+                        <TextView
+                            android:id="@+id/home_weight_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_s"
+                            android:textAppearance="@style/TextAppearance.PetCare.Stat"
+                            tools:text="20.0 kg" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/home_weight_label"
+                            android:textAppearance="@style/TextAppearance.PetCare.Caption" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/soft_yellow"
+                    app:cardCornerRadius="@dimen/corner_radius_card"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_m">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size_small"
+                            android:layout_height="@dimen/icon_size_small"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_bolt"
+                            app:tint="@color/warning_yellow" />
+
+                        <TextView
+                            android:id="@+id/home_age_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_s"
+                            android:textAppearance="@style/TextAppearance.PetCare.Stat"
+                            tools:text="2 yrs" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/home_age_label"
+                            android:textAppearance="@style/TextAppearance.PetCare.Caption" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_l" />
+
+            <!-- 5. Health score card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.PetCare.Card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_l">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_health_icon">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_gravity="center"
+                                android:contentDescription="@null"
+                                android:src="@drawable/ic_favorite"
+                                app:tint="@color/success_green" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/spacing_m"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/home_health_score"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.PetCare.Stat"
+                                tools:text="100/100" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/home_health_score_label"
+                                android:textAppearance="@style/TextAppearance.PetCare.Caption" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                        android:id="@+id/home_health_progress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_l"
+                        app:indicatorColor="@color/primary_coral"
+                        app:trackColor="@color/soft_coral"
+                        app:trackCornerRadius="8dp"
+                        app:trackThickness="10dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_xl" />
+
+            <!-- 6. Today's Care Plan -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_m"
+                android:text="@string/home_today_care_plan"
+                android:textAppearance="@style/TextAppearance.PetCare.SectionHeader" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/home_no_tasks_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/petcare_overlay_light"
+                app:cardCornerRadius="@dimen/corner_radius_card"
+                app:cardElevation="0dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_l"
+                    android:text="@string/home_no_tasks"
+                    android:textAppearance="@style/TextAppearance.PetCare.BodySecondary" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:id="@+id/home_care_task_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <TextView
+                android:id="@+id/home_see_all_tasks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="?attr/selectableItemBackground"
+                android:padding="@dimen/spacing_s"
+                android:text="@string/home_see_all_tasks"
+                android:textColor="@color/primary_coral"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_l" />
+
+            <!-- 7. Finance snippet -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/home_finance_snippet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/soft_lavender"
+                app:cardCornerRadius="@dimen/corner_radius_card"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/spacing_l">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_monthly_spending"
+                            android:textAppearance="@style/TextAppearance.PetCare.Caption" />
+
+                        <TextView
+                            android:id="@+id/home_monthly_spending_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:textAppearance="@style/TextAppearance.PetCare.Stat"
+                            tools:text="NPR 0.00" />
+
+                        <com.google.android.material.progressindicator.LinearProgressIndicator
+                            android:id="@+id/home_budget_progress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_s"
+                            android:visibility="gone"
+                            app:indicatorColor="@color/primary_coral"
+                            app:trackColor="@color/white"
+                            app:trackCornerRadius="4dp"
+                            app:trackThickness="6dp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/home_manage_expenses_button"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="@dimen/spacing_s"
+                        android:clickable="true"
+                        android:focusable="true"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="@dimen/corner_radius_pill"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size_small"
+                            android:layout_height="@dimen/icon_size_small"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/home_manage_expenses_content_description"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="@color/primary_coral" />
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

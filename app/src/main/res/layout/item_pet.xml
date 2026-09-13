@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/spacing_l"
+    android:clickable="true"
+    android:focusable="true"
+    style="@style/Widget.PetCare.Card.Standard"
+    app:cardElevation="1dp"
+    app:contentPadding="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="220dp">
+
+            <ImageView
+                android:id="@+id/item_pet_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/pet_image_content_description"
+                android:scaleType="centerCrop"
+                android:visibility="gone" />
+
+            <FrameLayout
+                android:id="@+id/item_pet_image_placeholder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/soft_coral">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:alpha="0.5"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_pets"
+                    app:tint="@color/primary_coral" />
+            </FrameLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_l">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/item_pet_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primary_text"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        tools:text="Max" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_xxs"
+                        app:cardBackgroundColor="@color/petcare_surface_variant"
+                        app:cardCornerRadius="@dimen/corner_radius_pill"
+                        app:cardElevation="0dp">
+
+                        <TextView
+                            android:id="@+id/item_pet_species_breed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="@dimen/spacing_s"
+                            android:paddingVertical="3dp"
+                            android:textAppearance="@style/TextAppearance.PetCare.Caption"
+                            tools:text="Dog • Golden Retriever" />
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/soft_green"
+                    app:cardCornerRadius="@dimen/corner_radius_pill"
+                    app:cardElevation="0dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/spacing_s"
+                        android:paddingVertical="6dp"
+                        android:text="@string/pet_healthy_badge"
+                        android:textColor="@color/success_green"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_m"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/item_pet_age"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.PetCare.CardTitle"
+                        tools:text="3 yrs" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Age"
+                        android:textAppearance="@style/TextAppearance.PetCare.Caption" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_xl"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/item_pet_weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.PetCare.CardTitle"
+                        tools:text="20.0 kg" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/home_weight_label"
+                        android:textAppearance="@style/TextAppearance.PetCare.Caption" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- ===================================================================
+         PHASE 2 DESIGN SYSTEM — semantic PetCare tokens (source of truth).
+         Refined from the original Compose-ported palette per the Phase 1
+         UI audit: primary deepened and muted-text darkened so on-brand text
+         clears WCAG AA contrast, and a real secondary hue (teal) is
+         introduced instead of reusing the primary color as "secondary".
+         All legacy token names below are kept and now alias into this
+         block, so no existing layout, drawable, or style needs to change
+         to pick up the refreshed palette.
+         =================================================================== -->
+
+    <!-- Brand -->
+    <color name="petcare_primary">#F2585C</color>
+    <color name="petcare_primary_variant">#D8474B</color>
+    <color name="petcare_secondary">#4FA3B0</color>
+    <color name="petcare_accent">#F2A65A</color>
+
+    <!-- Surfaces -->
+    <color name="petcare_background">#FFF8F6</color>
+    <color name="petcare_surface">#FFFFFF</color>
+    <color name="petcare_surface_variant">#FFF4F1</color>
+
+    <!-- Text -->
+    <color name="petcare_text_primary">#1F1B1D</color>
+    <color name="petcare_text_secondary">#6F696D</color>
+    <color name="petcare_text_muted">#8B8489</color>
+
+    <!-- States -->
+    <color name="petcare_success">#4CAE7D</color>
+    <color name="petcare_warning">#E7A84B</color>
+    <color name="petcare_error">#E14F55</color>
+
+    <!-- Navigation -->
+    <color name="petcare_nav_unselected">#9B9598</color>
+    <color name="petcare_nav_background">#FFFFFF</color>
+
+    <!-- Overlays (translucent tints used by shared drawables) -->
+    <color name="petcare_overlay_light">#80FFFFFF</color>
+    <!-- PHASE 3 (Home): detokenizing raw hex found on the pet carousel card and
+         home care-task rows during the Phase 1 audit, so nothing in the Home
+         redesign introduces new hardcoded colors. -->
+    <color name="petcare_overlay_faint">#26FFFFFF</color>
+    <color name="petcare_overlay_scrim">#4D000000</color>
+    <color name="petcare_text_on_primary_secondary">#D9FFFFFF</color>
+    <color name="petcare_icon_muted_on_surface">#99000000</color>
+    <!-- PHASE 7 (Expenses): translucent white progress track used on primary-colored
+         surfaces (the budget summary card), replacing a raw hex value flagged in the
+         original Phase 1 audit. -->
+    <color name="petcare_track_on_primary">#4DFFFFFF</color>
+
+    <!-- ===================================================================
+         Legacy token names — kept for backward compatibility so the ~50
+         existing layout/drawable files that reference these directly by
+         name continue to resolve, now pointing at the refined palette
+         above. Do not delete: removing any of these breaks every layout
+         still referencing it by its original name.
+         =================================================================== -->
+    <color name="app_background">@color/petcare_background</color>
+    <color name="soft_pink">#FFF4F3</color>
+    <color name="primary_coral">@color/petcare_primary</color>
+    <color name="dark_coral">@color/petcare_primary_variant</color>
+    <color name="soft_coral">#FFE1E1</color>
+    <color name="primary_text">@color/petcare_text_primary</color>
+    <color name="secondary_text">@color/petcare_text_secondary</color>
+    <color name="muted_text">@color/petcare_text_muted</color>
+    <color name="border_color">#F0DCDD</color>
+    <color name="success_green">@color/petcare_success</color>
+
+    <!-- Extra accent colors Home actually uses (ui/theme/Color.kt) beyond the core auth
+         palette - needed for visual parity with the existing stat cards / task icons. -->
+    <color name="info_blue">@color/petcare_secondary</color>
+    <color name="soft_blue">#DFF3F7</color>
+    <color name="warning_yellow">@color/petcare_warning</color>
+    <color name="soft_yellow">#FFF0D5</color>
+    <color name="soft_green">#E2F5E8</color>
+    <color name="soft_lavender">#F0E5FF</color>
+    <color name="nav_inactive">@color/petcare_nav_unselected</color>
+    <color name="error_red">@color/petcare_error</color>
+</resources>

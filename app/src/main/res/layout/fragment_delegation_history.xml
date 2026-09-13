@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_home_header"
+            android:paddingHorizontal="@dimen/spacing_xs"
+            android:paddingTop="44dp"
+            android:paddingBottom="@dimen/spacing_s">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/action_go_back"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/primary_text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/delegation_history_title"
+                android:textAppearance="@style/TextAppearance.PetCare.ScreenTitle" />
+
+            <ImageButton
+                android:id="@+id/btn_add_delegation"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/add_delegation_content_description"
+                android:src="@drawable/ic_add"
+                app:tint="@color/primary_coral" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/spacing_l">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_s"
+                    android:text="@string/delegation_history_heading"
+                    android:textAppearance="@style/TextAppearance.PetCare.SectionHeader" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_delegations"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingBottom="@dimen/spacing_xl"
+                    android:visibility="gone"
+                    tools:listitem="@layout/item_delegation" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/empty_delegations_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_l"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:alpha="0.4"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_history"
+                    app:tint="@color/primary_coral" />
+
+                <TextView
+                    android:id="@+id/tv_empty_delegations"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_m"
+                    android:text="@string/empty_delegations_title"
+                    android:textColor="@color/primary_text"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="@string/empty_delegations_description"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progress_delegations"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/primary_coral"
+                android:visibility="gone" />
+        </FrameLayout>
+    </LinearLayout>
+</FrameLayout>

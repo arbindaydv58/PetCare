@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_home_header"
+        android:paddingHorizontal="@dimen/spacing_xs"
+        android:paddingTop="44dp"
+        android:paddingBottom="@dimen/spacing_s">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/action_go_back"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/primary_text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/my_routines_title"
+            android:textAppearance="@style/TextAppearance.PetCare.ScreenTitle" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btn_edit_routine"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/routine_details_edit_content_description"
+                android:src="@drawable/ic_edit"
+                app:tint="@color/primary_coral" />
+
+            <ImageButton
+                android:id="@+id/btn_delete_routine"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/routine_details_delete_content_description"
+                android:src="@drawable/ic_delete"
+                app:tint="@color/error_red" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/routine_details_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/spacing_l"
+                android:paddingBottom="@dimen/spacing_xl">
+
+                <!-- Image -->
+                <ImageView
+                    android:id="@+id/routine_details_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:layout_marginBottom="@dimen/spacing_m"
+                    android:background="@drawable/bg_photo_picker"
+                    android:contentDescription="@null"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+
+                <!-- Header card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/soft_coral"
+                    app:cardCornerRadius="@dimen/corner_radius_card"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_l">
+
+                        <TextView
+                            android:id="@+id/routine_details_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/primary_coral"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            tools:text="Morning Walk" />
+
+                        <TextView
+                            android:id="@+id/routine_details_pet"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:textAppearance="@style/TextAppearance.PetCare.BodySecondary"
+                            tools:text="For Max" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_s"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="@null"
+                                android:src="@drawable/ic_sync"
+                                app:tint="@color/secondary_text" />
+
+                            <TextView
+                                android:id="@+id/routine_details_frequency"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:textAppearance="@style/TextAppearance.PetCare.BodySecondary"
+                                tools:text="Daily" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="@null"
+                                android:src="@drawable/ic_calendar"
+                                app:tint="@color/secondary_text" />
+
+                            <TextView
+                                android:id="@+id/routine_details_dates"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:textAppearance="@style/TextAppearance.PetCare.BodySecondary"
+                                tools:text="Starts 8 Sep 2026 • Ends 8 Oct 2026" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/routine_details_description"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_m"
+                            android:textColor="@color/primary_text"
+                            android:textSize="14sp"
+                            android:visibility="gone"
+                            tools:text="A brisk 20 minute walk around the neighborhood."
+                            tools:visibility="visible" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_l" />
+
+                <!-- Required Supplies -->
+                <LinearLayout
+                    android:id="@+id/supplies_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_s"
+                        android:text="@string/section_required_supplies"
+                        android:textAppearance="@style/TextAppearance.PetCare.SectionHeader" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.PetCare.Card">
+
+                        <LinearLayout
+                            android:id="@+id/supplies_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/spacing_l" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_l" />
+                </LinearLayout>
+
+                <!-- Notes -->
+                <LinearLayout
+                    android:id="@+id/notes_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_s"
+                        android:text="@string/section_notes"
+                        android:textAppearance="@style/TextAppearance.PetCare.SectionHeader" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.PetCare.Card">
+
+                        <TextView
+                            android:id="@+id/routine_details_notes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/spacing_l"
+                            android:textColor="@color/primary_text"
+                            android:textSize="14sp"
+                            tools:text="Bring water on hot days." />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_l" />
+                </LinearLayout>
+
+                <!-- Tasks -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/routine_tasks_heading"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textAppearance="@style/TextAppearance.PetCare.SectionHeader"
+                        tools:text="Tasks (2)" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_add_task"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/spacing_m"
+                        android:text="@string/action_add_task"
+                        android:textAllCaps="false"
+                        app:icon="@drawable/ic_add"
+                        app:iconGravity="textStart"
+                        app:iconTint="@color/primary_coral"
+                        style="@style/Widget.PetCare.Button.Link" />
+                </LinearLayout>
+
+                <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_m" />
+
+                <TextView
+                    android:id="@+id/no_routine_tasks_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_card_translucent"
+                    android:padding="@dimen/spacing_l"
+                    android:text="@string/no_tasks_in_routine"
+                    android:textAppearance="@style/TextAppearance.PetCare.BodySecondary"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/routine_task_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <TextView
+            android:id="@+id/routine_details_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/routine_not_found"
+            android:textAppearance="@style/TextAppearance.PetCare.Body"
+            android:visibility="gone" />
+    </FrameLayout>
+</LinearLayout>

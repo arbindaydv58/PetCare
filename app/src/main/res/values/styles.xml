@@ -1,0 +1,190 @@
+<resources>
+    <!-- Shared widget styles for the XML auth screens, so colors/corners aren't
+         repeated (and don't drift) across fragment_login/register/forgot_password.xml. -->
+
+    <style name="TextAppearance.PetCare.Heading" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.PetCare.Body" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textColor">@color/secondary_text</item>
+    </style>
+
+    <style name="TextAppearance.PetCare.Error" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textColor">@color/dark_coral</item>
+    </style>
+
+    <style name="Widget.PetCare.Button.Primary" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/primary_coral</item>
+        <item name="cornerRadius">@dimen/corner_radius_button</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Widget.PetCare.Button.Link" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/primary_coral</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.PetCare.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">@dimen/corner_radius_input</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/corner_radius_input</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/corner_radius_input</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/corner_radius_input</item>
+    </style>
+
+    <!-- PHASE 4 (Pet Management): the exposed-dropdown variant (used by Species/Gender)
+         was inheriting Material3's default box radius instead of the app's rounded-input
+         treatment above - this brings it in line with every other text field. -->
+    <style name="Widget.PetCare.TextInputLayout.ExposedDropdownMenu" parent="Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxCornerRadiusTopStart">@dimen/corner_radius_input</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/corner_radius_input</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/corner_radius_input</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/corner_radius_input</item>
+    </style>
+
+    <style name="Widget.PetCare.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardCornerRadius">@dimen/corner_radius_card</item>
+        <item name="cardElevation">2dp</item>
+    </style>
+
+    <!-- Smaller-radius variant of Widget.PetCare.Card for list rows (tasks, pets, healthcare,
+         expenses) so large feature cards (28dp) and everyday list rows (18dp) read as distinct
+         tiers, per the design system's "large cards vs standard cards" hierarchy. -->
+    <style name="Widget.PetCare.Card.Standard">
+        <item name="cardCornerRadius">@dimen/corner_radius_card_small</item>
+    </style>
+
+    <style name="Widget.PetCare.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="cornerRadius">@dimen/corner_radius_button</item>
+        <item name="strokeColor">@color/border_color</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/primary_text</item>
+    </style>
+
+    <!-- Pill-shaped label/badge (status chips, frequency badges) - 50%-rounded per the design
+         system's shape scale, tinted per-instance via app:cardBackgroundColor / textColor. -->
+    <style name="Widget.PetCare.Pill" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardCornerRadius">@dimen/corner_radius_pill</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <style name="TextAppearance.PetCare.ScreenTitle" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.PetCare.SectionHeader" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.PetCare.CardTitle" parent="TextAppearance.Material3.TitleSmall">
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.PetCare.Caption" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textColor">@color/secondary_text</item>
+    </style>
+
+    <style name="TextAppearance.PetCare.Stat" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- ===================================================================
+         PHASE 2 DESIGN SYSTEM FOUNDATION — additions to complete the Phase 1
+         typography/component system. These are new, additive resources;
+         no existing style above was renamed or removed, so every layout
+         already referencing the styles above is unaffected other than
+         picking up the refreshed color/dimension tokens they point to.
+         =================================================================== -->
+
+    <style name="TextAppearance.PetCare.BodySecondary" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/secondary_text</item>
+    </style>
+
+    <style name="TextAppearance.PetCare.InputLabel" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:textColor">@color/secondary_text</item>
+    </style>
+
+    <style name="TextAppearance.PetCare.NavLabel" parent="TextAppearance.Material3.LabelSmall" />
+
+    <!-- Destructive action variant, formalizing the pattern already used for
+         Profile's Logout button (soft-error fill, error-colored text/icon)
+         as a real reusable style instead of a one-off. Not yet applied to
+         fragment_profile.xml - that swap happens in the Profile screen's
+         own redesign phase, per Phase 2 being foundation-only. -->
+    <style name="Widget.PetCare.Button.Destructive" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/soft_coral</item>
+        <item name="cornerRadius">@dimen/corner_radius_button</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/petcare_error</item>
+        <item name="iconTint">@color/petcare_error</item>
+    </style>
+
+    <!-- Shared filter/category chip foundation. Existing static chips in
+         forms currently set style="@style/Widget.Material3.Chip.Filter"
+         explicitly per instance, so they keep their current appearance
+         until each screen is redesigned and switched over to this style.
+         Any chip created without an explicit style (e.g. programmatically)
+         already picks this up automatically via the theme's chipStyle
+         attribute (see themes.xml). -->
+    <!-- PHASE 3 (Home): backgrounds/text/stroke use color state lists (not flat colors)
+         so checked vs. unchecked chips remain visually distinct - required by the
+         Home category filter chips (selected = filled primary, unselected = soft
+         surface with a subtle border). -->
+    <style name="Widget.PetCare.Chip.Filter" parent="Widget.Material3.Chip.Filter">
+        <item name="chipBackgroundColor">@color/chip_background_state</item>
+        <item name="chipStrokeColor">@color/chip_stroke_state</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="android:textColor">@color/chip_text_state</item>
+        <item name="chipCornerRadius">@dimen/corner_radius_pill</item>
+    </style>
+
+    <!-- Pawline-style navigation: no background "capsule" behind the selected item at all -
+         Material3's default active-indicator pill (64dp x 32dp) is fully suppressed (0x0,
+         transparent) and the selected state is communicated purely through icon/label color
+         (already handled by bottom_nav_color_state.xml) plus a subtle size/weight bump in
+         Kotlin. This flat, color-only selection is the dominant convention in this genre of
+         pet-care/wellness app, not a Material capsule. -->
+    <style name="Widget.PetCare.BottomNavigation.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:width">0dp</item>
+        <item name="android:height">0dp</item>
+        <item name="android:color">@android:color/transparent</item>
+    </style>
+
+    <style name="Widget.PetCare.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemActiveIndicatorStyle">@style/Widget.PetCare.BottomNavigation.ActiveIndicator</item>
+        <item name="itemIconSize">24dp</item>
+        <item name="itemPaddingTop">10dp</item>
+        <item name="itemPaddingBottom">10dp</item>
+    </style>
+
+    <!-- No dialog/bottom-sheet XML layouts exist in the project - dialogs are
+         built programmatically via MaterialAlertDialogBuilder (confirmed
+         across ExpenseDetailsFragment, HealthcareDetailsFragment,
+         PetDetailsFragment, RoutineDetailsFragment, DailyChecklistFragment,
+         WeeklyChecklistFragment, DelegationHistoryFragment). Theming them
+         here is purely additive at the theme level (see themes.xml
+         materialAlertDialogTheme) and requires no Kotlin changes: every
+         existing confirm/cancel dialog automatically inherits the refined
+         corner radius and PetCare button treatment. -->
+    <style name="ShapeAppearanceOverlay.PetCare.Dialog" parent="">
+        <item name="cornerSize">@dimen/corner_radius_card</item>
+    </style>
+
+    <style name="ThemeOverlay.PetCare.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog.Centered">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.PetCare.Dialog</item>
+        <item name="colorPrimary">@color/petcare_primary</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.PetCare.Button.Link</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.PetCare.Button.Link</item>
+    </style>
+</resources>

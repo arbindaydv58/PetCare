@@ -1,0 +1,399 @@
+<resources>
+    <string name="app_name">PetCare</string>
+
+    <!-- Authentication (Stage 1 XML migration) -->
+    <string name="auth_logo_content_description">PetCare logo</string>
+    <string name="login_title">Welcome Back!</string>
+    <string name="login_description">Take care of your pets all in one place.</string>
+    <string name="register_title">Join the Family</string>
+    <string name="register_description">Start your journey to better pet care.</string>
+    <string name="forgot_password_title">Reset Password</string>
+    <string name="forgot_password_description">Enter your email to receive a reset link.</string>
+
+    <string name="label_username">Username</string>
+    <string name="label_email">Email</string>
+    <string name="label_password">Password</string>
+    <string name="label_confirm_password">Confirm Password</string>
+    <string name="label_email_address">Email Address</string>
+
+    <string name="action_sign_in">Sign In</string>
+    <string name="action_register">Register</string>
+    <string name="action_send_link">Send link</string>
+    <string name="action_forgot_password">Forgot Password?</string>
+    <string name="action_create_account">Create Account</string>
+    <string name="action_login">Log In</string>
+    <string name="action_back_to_login">Back to Log In</string>
+
+    <string name="prompt_no_account">Don\'t have an account?</string>
+    <string name="prompt_have_account">Already have an account?</string>
+
+    <string name="content_description_toggle_password">Show or hide password</string>
+
+    <!-- Home (Stage 2 XML migration) -->
+    <string name="home_welcome_prefix">Welcome back,</string>
+    <string name="home_greeting_format">Hello, %1$s 👋</string>
+    <string name="home_notification_content_description">Reminders</string>
+    <string name="home_default_user_name">Pet Parent</string>
+
+    <string name="home_no_pets_title">No pets yet</string>
+    <string name="home_no_pets_description">Add your first pet to start tracking their care journey.</string>
+    <string name="home_add_first_pet">Add My First Pet</string>
+    <string name="home_no_pets_filtered_title">No pets in this category</string>
+    <string name="home_no_pets_filtered_description">You don\'t have any pets matching this filter yet.</string>
+    <string name="home_show_all_pets">Show All Pets</string>
+    <string name="home_primary_pet_badge">Primary Pet</string>
+    <string name="pet_species_years">%1$s • %2$d Years Old</string>
+    <string name="pet_image_content_description">Pet photo</string>
+
+    <string name="home_weight_label">Weight</string>
+    <string name="home_weight_placeholder">--</string>
+    <string name="home_weight_format">%1$s kg</string>
+    <string name="home_age_label">Age</string>
+    <string name="home_health_score_format">%1$d/100</string>
+    <string name="home_health_score_label">Overall Health Score</string>
+
+    <string name="home_today_care_plan">Today\'s Care Plan</string>
+    <string name="home_no_tasks">No tasks scheduled for today. Rest easy! ☕</string>
+    <string name="home_see_all_tasks">See all tasks</string>
+    <string name="home_task_completed_content_description">Completed</string>
+    <string name="home_task_pending_content_description">Pending</string>
+
+    <string name="home_monthly_spending">Monthly Spending</string>
+    <string name="home_manage_expenses_content_description">Manage expenses</string>
+
+    <string name="category_dogs">🐕 Dogs</string>
+    <string name="category_cats">🐈 Cats</string>
+    <string name="category_vet_care">🏥 Vet Care</string>
+    <string name="category_food">🦴 Food</string>
+
+    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_pets">Pets</string>
+    <string name="bottom_nav_care">Care</string>
+    <string name="bottom_nav_health">Health</string>
+    <string name="bottom_nav_profile">Profile</string>
+
+    <!-- Pet Management (Stage 3 XML migration) -->
+    <string name="my_pets_title">My Pets</string>
+    <string name="add_pet_content_description">Add pet</string>
+    <string name="pet_healthy_badge">♥ Healthy</string>
+    <string name="pet_age_years">%1$d yrs</string>
+    <string name="pet_weight_kg">%1$s kg</string>
+
+    <string name="add_pet_title">Add Pet</string>
+    <string name="edit_pet_title">Edit Pet</string>
+    <string name="select_pet_photo_content_description">Select pet photo</string>
+    <string name="section_basic_information">Basic Information</string>
+    <string name="section_care_details">Care Details</string>
+    <string name="label_pet_name">Pet Name</string>
+    <string name="label_species">Species</string>
+    <string name="label_breed">Breed</string>
+    <string name="label_birthday">Birthday</string>
+    <string name="label_weight_kg">Weight (kg)</string>
+    <string name="label_gender">Gender</string>
+    <string name="label_dietary_preferences">Dietary Preferences</string>
+    <string name="label_allergies">Allergies</string>
+    <string name="label_vaccination_history">Vaccination History</string>
+    <string name="label_favourite_toys">Favourite Toys</string>
+    <string name="label_medical_notes">Medical Notes</string>
+    <string name="label_general_notes">General Notes</string>
+    <string name="action_create_profile">Create Profile</string>
+    <string name="action_update_profile">Update Profile</string>
+
+    <string name="error_pet_name_required">Pet name cannot be empty.</string>
+    <string name="error_species_required">Species cannot be empty.</string>
+    <string name="error_weight_invalid">Weight must be a valid positive number.</string>
+
+    <string name="pet_details_edit_content_description">Edit pet</string>
+    <string name="pet_details_delete_content_description">Delete pet</string>
+    <string name="not_provided">Not provided</string>
+    <string name="section_pet_information">Pet Information</string>
+    <string name="section_care_plan">Care Plan</string>
+    <string name="section_healthcare">Healthcare</string>
+    <string name="section_expenses">Expenses</string>
+    <string name="no_tasks_today">No tasks scheduled yet for today.</string>
+    <string name="no_medical_records">No medical records yet.</string>
+    <string name="healthcare_next_due_format">Next due: %1$s</string>
+    <string name="healthcare_record_count_format">Total %1$d records kept</string>
+    <string name="total_spending_label">Total Spending</string>
+    <string name="view_expense_details_prompt">View details and set budget</string>
+    <string name="share_care_instructions">Share care instructions</string>
+    <string name="add_task_content_description">Add task</string>
+    <string name="add_healthcare_content_description">Add healthcare record</string>
+    <string name="add_expense_content_description">Add expense</string>
+
+    <string name="delete_pet_dialog_title">Delete Profile?</string>
+    <string name="delete_pet_dialog_message">Are you sure you want to delete %1$s? This cannot be undone.</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_ok">OK</string>
+
+    <string name="unable_to_load_pet">Unable to load pet details.</string>
+    <string name="action_go_back">Go back</string>
+
+    <!-- Care Routines (Stage 4 XML migration) -->
+    <string name="my_routines_title">Care Routines</string>
+    <string name="add_routine_content_description">Add Routine</string>
+    <string name="no_routines_title">No routines yet</string>
+    <string name="no_routines_description">Create repeatable routines like \'Morning Care\' or \'Weekly Grooming\'.</string>
+    <string name="create_routine_action">Create Routine</string>
+    <string name="routine_pet_frequency_format">%1$s • %2$s</string>
+
+    <string name="add_routine_title">New Routine</string>
+    <string name="edit_routine_title">Edit Routine</string>
+    <string name="select_routine_photo_content_description">Select routine photo</string>
+    <string name="routine_for_which_pet">Routine for which Pet?</string>
+    <string name="section_routine_basics">Routine Basics</string>
+    <string name="section_dates">Dates</string>
+    <string name="section_requirements">Requirements</string>
+    <string name="label_routine_name">Routine Name (e.g. Morning Walk)</string>
+    <string name="label_routine_description">Description</string>
+    <string name="how_often_label">How often?</string>
+    <string name="frequency_daily">Daily</string>
+    <string name="frequency_weekly">Weekly</string>
+    <string name="frequency_monthly">Monthly</string>
+    <string name="frequency_once">Once</string>
+    <string name="label_start_date">Start Date</string>
+    <string name="label_end_date_optional">End Date (Optional)</string>
+    <string name="end_date_ongoing">Ongoing</string>
+    <string name="label_supplies_needed">Supplies Needed</string>
+    <string name="hint_supplies_needed">e.g. Leash, Treats, Poop bags</string>
+    <string name="label_extra_instructions">Extra Instructions</string>
+    <string name="action_create_routine">Create Routine</string>
+    <string name="action_update_routine">Update Routine</string>
+    <string name="error_select_pet">Please select a pet.</string>
+    <string name="error_routine_name_required">Routine name is required.</string>
+
+    <string name="routine_details_edit_content_description">Edit routine</string>
+    <string name="routine_details_delete_content_description">Delete routine</string>
+    <string name="section_required_supplies">Required Supplies</string>
+    <string name="section_notes">Notes</string>
+    <string name="routine_tasks_count_format">Tasks (%1$d)</string>
+    <string name="action_add_task">Add Task</string>
+    <string name="no_tasks_in_routine">No tasks in this routine yet.</string>
+    <string name="routine_not_found">Routine not found.</string>
+
+    <string name="delete_routine_dialog_title">Delete Routine?</string>
+    <string name="delete_routine_dialog_message">Are you sure you want to delete \"%1$s\"? Tasks linked to it will be kept but unassigned from this routine.</string>
+
+    <string name="section_pet_routines">Care Routines</string>
+    <string name="see_all_routines">See all</string>
+    <string name="no_pet_routines">No routines yet for this pet.</string>
+
+    <!-- Care Tasks + Checklists + Gestures (Stage 6 XML migration) -->
+    <string name="daily_checklist_title">Daily Care</string>
+    <string name="weekly_checklist_title">Weekly Plan</string>
+    <string name="greeting_pet_parent">Hi Pet Parent 👋</string>
+    <string name="checklist_progress_format">%1$d of %2$d completed</string>
+    <string name="weekly_task_count_format">%1$d tasks scheduled for this day</string>
+    <string name="empty_daily_checklist">You\'re all caught up!</string>
+    <string name="empty_daily_checklist_description">Enjoy the day with your pets! 🐾</string>
+    <string name="empty_weekly_checklist">No tasks found. Take a break! 🐾</string>
+    <string name="add_task_fab_content_description">Add Task</string>
+
+    <string name="add_task_title">New Care Task</string>
+    <string name="edit_task_title">Edit Task</string>
+    <string name="select_pet_label">Select Pet</string>
+    <string name="select_task_photo_content_description">Select task photo</string>
+    <string name="section_task_details">Task Details</string>
+    <string name="label_task_title">Task Title (e.g. Morning Feeding)</string>
+    <string name="label_category">Category</string>
+    <string name="section_schedule">Schedule</string>
+    <string name="label_date">Date</string>
+    <string name="label_time">Time</string>
+    <string name="label_frequency">Frequency</string>
+    <string name="section_reminders">Reminders</string>
+    <string name="local_reminder_title">Local Reminder</string>
+    <string name="local_reminder_description">Get notified when task is due</string>
+    <string name="remind_me_label">Remind me:</string>
+    <string name="reminder_at_time">At time</string>
+    <string name="reminder_5m_before">5m before</string>
+    <string name="reminder_15m_before">15m before</string>
+    <string name="reminder_30m_before">30m before</string>
+    <string name="reminder_1h_before">1h before</string>
+    <string name="action_create_task">Create Care Task</string>
+    <string name="action_update_task">Update Task</string>
+    <string name="error_task_title_required">Task title is required.</string>
+
+    <string name="category_feeding">Feeding</string>
+    <string name="category_exercise">Exercise</string>
+    <string name="category_grooming">Grooming</string>
+    <string name="category_medication">Medication</string>
+    <string name="category_healthcare">Healthcare</string>
+    <string name="category_cleaning">Cleaning</string>
+    <string name="category_other">Other</string>
+
+    <string name="delete_task_dialog_title">Delete Task?</string>
+    <string name="delete_task_dialog_message">Are you sure you want to delete \"%1$s\"?</string>
+    <string name="task_completed_toast">%1$s done!</string>
+    <string name="task_pending_toast">%1$s marked pending</string>
+
+    <string name="edit_task_content_description">Edit task</string>
+    <string name="delegate_task_content_description">Delegate task</string>
+    <string name="delete_task_content_description">Delete task</string>
+    <string name="complete_task_content_description">Mark task complete</string>
+
+    <string name="shake_reset_success_title">Checklist Reset</string>
+    <string name="shake_reset_success_message">Today\'s checklist has been reset successfully.</string>
+    <string name="shake_reset_already_clear_title">Checklist Clear</string>
+    <string name="shake_reset_already_clear_message">Today\'s checklist is already clear.</string>
+    <string name="shake_reset_error_title">Reset Failed</string>
+    <string name="shake_reset_error_fallback">Unable to reset today\'s checklist. Please try again.</string>
+
+    <!-- Healthcare Management (Stage 7 XML migration) -->
+    <string name="healthcare_list_title">Healthcare</string>
+    <string name="healthcare_subtitle_pet_format">Health records for %1$s</string>
+    <string name="healthcare_subtitle_general">Manage all pet health records</string>
+    <string name="healthcare_filter_all">All</string>
+    <string name="empty_healthcare_title">No health records yet</string>
+    <string name="empty_healthcare_description">Keep your pet\'s medical history organized and accessible.</string>
+    <string name="action_add_record">Add Record</string>
+    <string name="category_vax_label">Vax</string>
+    <string name="category_meds_label">Meds</string>
+    <string name="category_visits_label">Visits</string>
+    <string name="category_allergy_label">Allergy</string>
+    <string name="healthcare_records_heading">Records</string>
+    <string name="pet_label_format">Pet: %1$s</string>
+    <string name="healthcare_next_due_pill_format">Next Due: %1$s</string>
+
+    <string name="add_healthcare_title">New Medical Record</string>
+    <string name="edit_healthcare_title">Edit Record</string>
+    <string name="recording_for_format">Recording for %1$s</string>
+    <string name="section_medical_details">Medical Details</string>
+    <string name="label_event_type">Event Type</string>
+    <string name="label_healthcare_title">Title (e.g. Annual Rabies Vax)</string>
+    <string name="section_medication_info">Medication Info</string>
+    <string name="label_medication_name">Medication Name</string>
+    <string name="label_dosage">Dosage</string>
+    <string name="label_duration">Duration</string>
+    <string name="checkbox_create_care_task">Create repeating care task</string>
+    <string name="section_visit_info">Visit Info</string>
+    <string name="label_veterinarian">Veterinarian</string>
+    <string name="label_clinic_name">Clinic Name</string>
+    <string name="time_not_set">Set time</string>
+    <string name="label_next_due_date">Follow-up / Next Due</string>
+    <string name="checkbox_enable_next_due_reminder">Enable notification for next due</string>
+    <string name="label_observations">Observations or treatment notes</string>
+    <string name="action_save_medical_record">Save Medical Record</string>
+    <string name="action_update_record">Update Record</string>
+    <string name="error_healthcare_title_required">Title is required</string>
+    <string name="select_healthcare_photo_content_description">Select healthcare photo</string>
+
+    <string name="healthcare_details_title">Medical Record</string>
+    <string name="record_not_found">Record not found</string>
+    <string name="section_general_info">General Info</string>
+    <string name="detail_label_pet_name">Pet Name</string>
+    <string name="detail_label_visit_date">Visit Date</string>
+    <string name="detail_label_visit_time">Visit Time</string>
+    <string name="detail_label_next_due_date">Next Due Date</string>
+    <string name="unknown_pet">Unknown</string>
+    <string name="detail_label_clinic">Clinic / Hospital</string>
+    <string name="detail_label_medication">Medication</string>
+    <string name="not_specified">Not specified</string>
+    <string name="section_notes_description">Notes &amp; Description</string>
+    <string name="delete_healthcare_dialog_title">Delete Medical Record?</string>
+    <string name="delete_healthcare_dialog_message">Are you sure you want to remove this record from your pet\'s history?</string>
+    <string name="edit_healthcare_content_description">Edit record</string>
+    <string name="delete_healthcare_content_description">Delete record</string>
+
+    <!-- Expenses + Budget (Stage 8 XML migration) -->
+    <string name="expenses_list_title">Expenses</string>
+    <string name="monthly_summary_label">Total spent this month</string>
+    <string name="set_monthly_budget_action">Set Monthly Budget</string>
+    <string name="edit_budget_action">Edit Budget</string>
+    <string name="budget_percent_format">%1$d%% of budget</string>
+    <string name="budget_left_format">Left: %1$s</string>
+    <string name="empty_expenses_title">No expenses recorded</string>
+    <string name="empty_expenses_description">Track what you spend on food, toys, and care.</string>
+    <string name="recent_transactions_heading">Recent Transactions</string>
+    <string name="general_pet_expense_label">General Pet Expense</string>
+
+    <string name="add_expense_title">New Expense</string>
+    <string name="edit_expense_title">Edit Expense</string>
+    <string name="label_expense_title">Expense Title (e.g. Dog Food)</string>
+    <string name="section_transaction_amount">Transaction Amount</string>
+    <string name="label_amount">Amount</string>
+    <string name="amount_placeholder">0.00</string>
+    <string name="currency_prefix_npr">NPR </string>
+    <string name="section_assign_pet">Assign to Pet</string>
+    <string name="label_assigned_pet">Assigned Pet</string>
+    <string name="section_transaction_info">Transaction Info</string>
+    <string name="label_transaction_date">Transaction Date</string>
+    <string name="label_payment_method">Payment Method</string>
+    <string name="label_vendor">Vendor / Store Name</string>
+    <string name="label_additional_notes">Additional notes</string>
+    <string name="action_log_expense">Log Expense</string>
+    <string name="action_save_changes">Save Changes</string>
+    <string name="select_expense_photo_content_description">Select expense photo</string>
+
+    <string name="expense_details_title">Expense Details</string>
+    <string name="expense_not_found">Expense not found</string>
+    <string name="detail_label_pet">Pet</string>
+    <string name="detail_label_payment">Payment</string>
+    <string name="detail_label_vendor">Vendor</string>
+    <string name="delete_expense_dialog_title">Delete Expense?</string>
+    <string name="delete_expense_dialog_message">Are you sure you want to remove this expense record?</string>
+    <string name="edit_expense_content_description">Edit expense</string>
+    <string name="delete_expense_content_description">Delete expense</string>
+
+    <string name="budget_form_title">Set Monthly Budget</string>
+    <string name="budget_setup_prompt">How much do you plan to spend on your pets this month?</string>
+    <string name="label_budget_amount">Budget Amount (NPR)</string>
+    <string name="action_save_budget">Save Budget</string>
+    <string name="error_budget_amount_invalid">Please enter a valid amount greater than zero.</string>
+
+    <!-- SMS Delegation (Stage 9 XML migration) -->
+    <string name="delegation_history_title">Delegation History</string>
+    <string name="delegation_history_heading">Recent Delegations</string>
+    <string name="empty_delegations_title">No history yet</string>
+    <string name="empty_delegations_description">Previous care delegations will appear here.</string>
+    <string name="delegation_to_format">To: %1$s</string>
+    <string name="delegation_tasks_format">Tasks: %1$s</string>
+    <string name="delete_delegation_dialog_title">Delete Delegation Record?</string>
+    <string name="delete_delegation_dialog_message">Are you sure you want to remove this delegation record?</string>
+    <string name="delete_delegation_content_description">Delete delegation</string>
+    <string name="add_delegation_content_description">Add delegation</string>
+    <string name="history_content_description">Delegation history</string>
+
+    <string name="delegation_form_title">Delegate Care</string>
+    <string name="delegation_subtitle">Share care instructions with a sitter or family member.</string>
+    <string name="section_delegation_details">Delegation Details</string>
+    <string name="label_target_pet">Target Pet</string>
+    <string name="label_date_of_care">Date of Care</string>
+    <string name="tasks_to_include_heading">Tasks to Include</string>
+    <string name="no_tasks_for_date">No tasks found for this date.</string>
+    <string name="section_recipient">Recipient</string>
+    <string name="label_recipient_name">Name</string>
+    <string name="label_recipient_phone">Phone Number</string>
+    <string name="message_preview_label">Message Preview</string>
+    <string name="action_send_via_sms">Send via SMS</string>
+    <string name="error_recipient_phone_required">Phone number is required.</string>
+    <string name="error_recipient_phone_invalid">Enter a valid phone number.</string>
+    <string name="error_no_tasks_selected">Select at least one task to delegate.</string>
+    <string name="sms_app_unavailable">No SMS app available on this device.</string>
+
+    <!-- Notifications + Reminders (Stage 10 XML migration) -->
+    <string name="notification_settings_title">Notifications</string>
+    <string name="label_system_permission">System Permission</string>
+    <string name="system_permission_description">Ensure notifications are enabled in Android settings.</string>
+    <string name="action_enable">Enable</string>
+    <string name="preferences_heading">Preferences</string>
+    <string name="label_all_reminders">All Reminders</string>
+    <string name="description_all_reminders">Globally turn on/off all local alerts.</string>
+    <string name="label_task_reminders">Care Task Reminders</string>
+    <string name="description_task_reminders">Feeding, exercise, and grooming alerts.</string>
+    <string name="label_healthcare_alerts">Healthcare Alerts</string>
+    <string name="description_healthcare_alerts">Medical appointments and follow-ups.</string>
+    <string name="notification_settings_footer">PetCare will send you local reminders based on the schedule you set for each pet.</string>
+
+    <!-- Profile / Settings (Stage 11 XML migration) -->
+    <string name="profile_title">Profile</string>
+    <string name="default_user_display_name">Pet Parent</string>
+    <string name="default_user_email">User</string>
+    <string name="section_account">Account</string>
+    <string name="section_app">App</string>
+    <string name="notification_settings_menu_item">Notification Settings</string>
+    <string name="about_petcare_menu_item">About PetCare</string>
+    <string name="privacy_policy_menu_item">Privacy Policy</string>
+    <string name="action_logout">Logout</string>
+</resources>

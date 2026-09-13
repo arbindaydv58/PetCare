@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_home_header"
+            android:paddingHorizontal="@dimen/spacing_xs"
+            android:paddingTop="44dp"
+            android:paddingBottom="@dimen/spacing_s">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/action_go_back"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/primary_text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/healthcare_details_title"
+                android:textAppearance="@style/TextAppearance.PetCare.ScreenTitle" />
+
+            <LinearLayout
+                android:id="@+id/healthcare_details_actions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ImageButton
+                    android:id="@+id/btn_edit_healthcare"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/edit_healthcare_content_description"
+                    android:src="@drawable/ic_edit"
+                    app:tint="@color/primary_coral" />
+
+                <ImageButton
+                    android:id="@+id/btn_delete_healthcare"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/delete_healthcare_content_description"
+                    android:src="@drawable/ic_delete"
+                    app:tint="@color/error_red" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/healthcare_details_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/record_not_found"
+                android:textAppearance="@style/TextAppearance.PetCare.Body"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/healthcare_details_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/primary_coral"
+                android:visibility="gone" />
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/healthcare_details_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/spacing_l">
+
+                    <!-- Header card -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/soft_coral"
+                        app:cardCornerRadius="@dimen/corner_radius_card"
+                        app:cardElevation="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/spacing_l">
+
+                            <FrameLayout
+                                android:id="@+id/healthcare_details_icon_container"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:background="@drawable/bg_health_icon">
+
+                                <ImageView
+                                    android:id="@+id/healthcare_details_icon"
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_gravity="center"
+                                    android:contentDescription="@null"
+                                    android:src="@drawable/ic_medical"
+                                    app:tint="@color/primary_text" />
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/spacing_l"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_healthcare_type"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/primary_coral"
+                                    android:textSize="13sp"
+                                    tools:text="Vaccination" />
+
+                                <TextView
+                                    android:id="@+id/tv_healthcare_title"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:textAppearance="@style/TextAppearance.PetCare.ScreenTitle"
+                                    tools:text="Annual Rabies Vaccination" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_l" />
+
+                    <ImageView
+                        android:id="@+id/iv_healthcare_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:layout_marginBottom="@dimen/spacing_l"
+                        android:background="@drawable/bg_photo_picker"
+                        android:contentDescription="@null"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                    <!-- General Info -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_s"
+                        android:text="@string/section_general_info"
+                        android:textAppearance="@style/TextAppearance.PetCare.SectionHeader" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.PetCare.Card">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/spacing_l">
+
+                            <include layout="@layout/item_pet_info_row" android:id="@+id/row_healthcare_pet" />
+                            <include layout="@layout/item_pet_info_row" android:id="@+id/row_healthcare_date" />
+
+                            <LinearLayout
+                                android:id="@+id/row_healthcare_time_container"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:visibility="gone"
+                                tools:visibility="visible">
+                                <include layout="@layout/item_pet_info_row" android:id="@+id/row_healthcare_time" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/row_healthcare_next_due_container"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:visibility="gone"
+                                tools:visibility="visible">
+                                <include layout="@layout/item_pet_info_row" android:id="@+id/row_healthcare_next_due" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Medical Details -->
+                    <LinearLayout
+                        android:id="@+id/section_details_medical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_l" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/spacing_s"
+                            android:text="@string/section_medical_details"
+                            android:textAppearance="@style/TextAppearance.PetCare.SectionHeader" />
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.PetCare.Card">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="@dimen/spacing_l">
+
+                                <LinearLayout
+                                    android:id="@+id/row_healthcare_vet_container"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:visibility="gone"
+                                    tools:visibility="visible">
+                                    <include layout="@layout/item_pet_info_row" android:id="@+id/row_healthcare_vet" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/row_healthcare_clinic_container"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:visibility="gone"
+                                    tools:visibility="visible">
+                                    <include layout="@layout/item_pet_info_row" android:id="@+id/row_healthcare_clinic" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/row_healthcare_medication_container"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:visibility="gone"
+                                    tools:visibility="visible">
+                                    <include layout="@layout/item_pet_info_row" android:id="@+id/row_healthcare_medication" />
+                                    <include layout="@layout/item_pet_info_row" android:id="@+id/row_healthcare_dosage" />
+                                    <include layout="@layout/item_pet_info_row" android:id="@+id/row_healthcare_frequency" />
+                                    <include layout="@layout/item_pet_info_row" android:id="@+id/row_healthcare_duration" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+                    </LinearLayout>
+
+                    <!-- Notes & Description -->
+                    <LinearLayout
+                        android:id="@+id/section_details_notes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_l" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/spacing_s"
+                            android:text="@string/section_notes_description"
+                            android:textAppearance="@style/TextAppearance.PetCare.SectionHeader" />
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:cardBackgroundColor="@color/soft_lavender"
+                            app:cardCornerRadius="@dimen/corner_radius_card"
+                            app:cardElevation="0dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="@dimen/spacing_l">
+
+                                <TextView
+                                    android:id="@+id/tv_healthcare_description"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="15sp"
+                                    android:visibility="gone"
+                                    tools:text="Routine annual checkup."
+                                    tools:visibility="visible" />
+
+                                <TextView
+                                    android:id="@+id/tv_healthcare_notes"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/spacing_m"
+                                    android:textAppearance="@style/TextAppearance.PetCare.BodySecondary"
+                                    android:visibility="gone"
+                                    tools:text="Pet tolerated the visit well."
+                                    tools:visibility="visible" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+                    </LinearLayout>
+
+                    <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_xl" />
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </FrameLayout>
+    </LinearLayout>
+</FrameLayout>

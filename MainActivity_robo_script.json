@@ -1,0 +1,122 @@
+"roboscript": {
+  "executionMode": {
+    "strict": false
+  },
+  "postscript": {
+    "terminate": false
+  }
+}
+[
+  {
+    "crawlStage": "crawl",
+    "contextDescriptor": {
+      "condition": "app_under_test_shown"
+    },
+    "actions": [
+      {
+        "eventType": "PRESSED_BACK",
+        "timestamp": 1788749333045,
+        "actionCode": -1,
+        "delayTime": 0,
+        "canScrollTo": false,
+        "elementDescriptors": []
+      },
+      {
+        "eventType": "PRESSED_BACK",
+        "timestamp": 1788749337783,
+        "actionCode": -1,
+        "delayTime": 0,
+        "canScrollTo": false,
+        "elementDescriptors": []
+      },
+      {
+        "eventType": "PRESSED_BACK",
+        "timestamp": 1788749342133,
+        "actionCode": -1,
+        "delayTime": 0,
+        "canScrollTo": false,
+        "elementDescriptors": []
+      },
+      {
+        "eventType": "PRESSED_BACK",
+        "timestamp": 1788749371555,
+        "actionCode": -1,
+        "delayTime": 0,
+        "canScrollTo": false,
+        "elementDescriptors": []
+      },
+      {
+        "eventType": "PRESSED_BACK",
+        "timestamp": 1788749385997,
+        "actionCode": -1,
+        "delayTime": 0,
+        "canScrollTo": false,
+        "elementDescriptors": []
+      },
+      {
+        "eventType": "PRESSED_BACK",
+        "timestamp": 1788749390276,
+        "actionCode": -1,
+        "delayTime": 0,
+        "canScrollTo": false,
+        "elementDescriptors": []
+      },
+      {
+        "eventType": "PRESSED_BACK",
+        "timestamp": 1788749412014,
+        "actionCode": -1,
+        "delayTime": 0,
+        "canScrollTo": false,
+        "elementDescriptors": []
+      },
+      {
+        "eventType": "PRESSED_BACK",
+        "timestamp": 1788749434537,
+        "actionCode": -1,
+        "delayTime": 0,
+        "canScrollTo": false,
+        "elementDescriptors": []
+      },
+      {
+        "eventType": "PRESSED_BACK",
+        "timestamp": 1788749449233,
+        "actionCode": -1,
+        "delayTime": 0,
+        "canScrollTo": false,
+        "elementDescriptors": []
+      },
+      {
+        "eventType": "PRESSED_BACK",
+        "timestamp": 1788749450045,
+        "actionCode": -1,
+        "delayTime": 0,
+        "canScrollTo": false,
+        "elementDescriptors": []
+      },
+      {
+        "eventType": "PRESSED_BACK",
+        "timestamp": 1788749452331,
+        "actionCode": -1,
+        "delayTime": 0,
+        "canScrollTo": false,
+        "elementDescriptors": []
+      },
+      {
+        "eventType": "PRESSED_BACK",
+        "timestamp": 1788749455380,
+        "actionCode": -1,
+        "delayTime": 0,
+        "canScrollTo": false,
+        "elementDescriptors": []
+      },
+      {
+        "eventType": "PRESSED_BACK",
+        "timestamp": 1788749460461,
+        "actionCode": -1,
+        "delayTime": 0,
+        "canScrollTo": false,
+        "elementDescriptors": []
+      }
+    ]
+  }
+]
