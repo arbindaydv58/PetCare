@@ -25,9 +25,14 @@
             app:tint="@color/primary_text" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_toStartOf="@id/btn_delegation_history"
+            android:layout_toEndOf="@id/btn_back"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
             android:text="@string/delegation_form_title"
             android:textAppearance="@style/TextAppearance.PetCare.ScreenTitle" />
 
@@ -218,7 +223,7 @@
                 android:visibility="gone"
                 app:cardBackgroundColor="@color/soft_coral"
                 app:cardCornerRadius="@dimen/corner_radius_card"
-                app:cardElevation="0dp"
+                app:cardElevation="@dimen/elevation_level0"
                 tools:visibility="visible">
 
                 <LinearLayout

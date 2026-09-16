@@ -24,14 +24,23 @@
             android:src="@drawable/ic_arrow_back"
             app:tint="@color/primary_text" />
 
+        <!-- CONSISTENCY FIX: constrained between the back button and the trailing
+             actions with ellipsize, so title text can't overlap them under font-scale
+             or localized text expansion. -->
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_toStartOf="@id/routine_details_actions"
+            android:layout_toEndOf="@id/btn_back"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
             android:text="@string/my_routines_title"
             android:textAppearance="@style/TextAppearance.PetCare.ScreenTitle" />
 
         <LinearLayout
+            android:id="@+id/routine_details_actions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -92,7 +101,7 @@
                     android:layout_height="wrap_content"
                     app:cardBackgroundColor="@color/soft_coral"
                     app:cardCornerRadius="@dimen/corner_radius_card"
-                    app:cardElevation="0dp">
+                    app:cardElevation="@dimen/elevation_level0">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -278,7 +287,7 @@
                     android:id="@+id/no_routine_tasks_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_card_translucent"
+                    android:background="@drawable/bg_card_outlined"
                     android:padding="@dimen/spacing_l"
                     android:text="@string/no_tasks_in_routine"
                     android:textAppearance="@style/TextAppearance.PetCare.BodySecondary"

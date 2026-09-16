@@ -28,10 +28,18 @@
                 android:src="@drawable/ic_arrow_back"
                 app:tint="@color/primary_text" />
 
+            <!-- CONSISTENCY FIX: constrained between the back button and the trailing
+                 action with ellipsize, so title text can't overlap it under font-scale
+                 or localized text expansion. -->
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_toStartOf="@id/btn_add_task_toolbar"
+                android:layout_toEndOf="@id/btn_back"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
                 android:text="@string/daily_checklist_title"
                 android:textAppearance="@style/TextAppearance.PetCare.ScreenTitle" />
 
@@ -52,7 +60,7 @@
             android:layout_margin="@dimen/spacing_l"
             app:cardBackgroundColor="@color/soft_coral"
             app:cardCornerRadius="@dimen/corner_radius_card"
-            app:cardElevation="0dp">
+            app:cardElevation="@dimen/elevation_level0">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -110,6 +118,9 @@
                 android:visibility="gone"
                 tools:listitem="@layout/item_care_task" />
 
+            <!-- DESIGN SYSTEM v2: same soft-tint icon container + tokenized typography
+                 used for every other empty state in the app, instead of a bare faded icon
+                 with hardcoded text styling. -->
             <LinearLayout
                 android:id="@+id/empty_daily_tasks"
                 android:layout_width="wrap_content"
@@ -120,39 +131,45 @@
                 android:padding="@dimen/spacing_l"
                 android:visibility="gone">
 
-                <ImageView
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:alpha="0.4"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_check_circle"
-                    app:tint="@color/primary_coral" />
+                <FrameLayout
+                    android:layout_width="88dp"
+                    android:layout_height="88dp"
+                    android:background="@drawable/bg_circle_white"
+                    android:backgroundTint="@color/petcare_primary_tint">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_check_circle"
+                        app:tint="@color/primary_coral" />
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_m"
+                    android:gravity="center"
                     android:text="@string/empty_daily_checklist"
-                    android:textColor="@color/primary_text"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textAppearance="@style/TextAppearance.PetCare.SectionHeader" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:gravity="center"
                     android:text="@string/empty_daily_checklist_description"
-                    android:textColor="@color/secondary_text"
-                    android:textSize="14sp" />
+                    android:textAppearance="@style/TextAppearance.PetCare.BodySecondary" />
             </LinearLayout>
 
-            <ProgressBar
+            <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/daily_tasks_loading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:indeterminateTint="@color/primary_coral"
-                android:visibility="gone" />
+                android:visibility="gone"
+                style="@style/Widget.PetCare.ProgressIndicator.Circular" />
         </FrameLayout>
     </LinearLayout>
 

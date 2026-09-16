@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.example.petcare.R
 import com.example.petcare.databinding.FragmentProfileBinding
@@ -12,6 +13,7 @@ import com.example.petcare.databinding.ItemProfileMenuBinding
 import com.example.petcare.ui.screens.auth.AuthActivity
 import com.example.petcare.ui.screens.delegation.DelegationActivity
 import com.example.petcare.ui.screens.settings.NotificationSettingsActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 
 class ProfileFragment : Fragment() {
@@ -45,7 +47,8 @@ class ProfileFragment : Fragment() {
         bindMenuItem(
             binding.itemNotificationSettings,
             iconRes = R.drawable.ic_notifications,
-            titleRes = R.string.notification_settings_menu_item
+            titleRes = R.string.notification_settings_menu_item,
+            descriptionRes = R.string.description_notification_settings_menu_item
         ) {
             startActivity(Intent(requireContext(), NotificationSettingsActivity::class.java))
         }
@@ -53,7 +56,8 @@ class ProfileFragment : Fragment() {
         bindMenuItem(
             binding.itemDelegationHistory,
             iconRes = R.drawable.ic_history,
-            titleRes = R.string.delegation_history_title
+            titleRes = R.string.delegation_history_title,
+            descriptionRes = R.string.description_delegation_history_menu_item
         ) {
             startActivity(
                 Intent(requireContext(), DelegationActivity::class.java).apply {
@@ -65,21 +69,52 @@ class ProfileFragment : Fragment() {
         bindMenuItem(
             binding.itemAboutPetcare,
             iconRes = R.drawable.ic_info,
-            titleRes = R.string.about_petcare_menu_item
+            titleRes = R.string.about_petcare_menu_item,
+            descriptionRes = R.string.description_about_petcare_menu_item
         ) { }
 
         bindMenuItem(
             binding.itemPrivacyPolicy,
             iconRes = R.drawable.ic_lock,
-            titleRes = R.string.privacy_policy_menu_item
+            titleRes = R.string.privacy_policy_menu_item,
+            descriptionRes = R.string.description_privacy_policy_menu_item
         ) { }
 
-        binding.btnLogout.setOnClickListener { logout() }
+        binding.btnLogout.setOnClickListener { confirmLogout() }
     }
 
-    private fun bindMenuItem(itemBinding: ItemProfileMenuBinding, iconRes: Int, titleRes: Int, onClick: () -> Unit) {
+    // DESIGN SYSTEM v2: logout previously fired immediately on tap - every other
+    // consequential action in the app (delete pet/task/routine/record/expense/
+    // delegation) confirms first, so this adds the same MaterialAlertDialogBuilder
+    // confirmation pattern here. FirebaseAuth.signOut() is still the exact same call,
+    // just gated behind a confirm/cancel choice.
+    private fun confirmLogout() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.logout_dialog_title)
+            .setMessage(R.string.logout_dialog_message)
+            .setPositiveButton(R.string.action_logout) { dialog, _ ->
+                logout()
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.action_cancel) { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+
+    private fun bindMenuItem(
+        itemBinding: ItemProfileMenuBinding,
+        iconRes: Int,
+        titleRes: Int,
+        descriptionRes: Int? = null,
+        onClick: () -> Unit
+    ) {
         itemBinding.profileMenuIcon.setImageResource(iconRes)
         itemBinding.profileMenuTitle.text = getString(titleRes)
+        if (descriptionRes != null) {
+            itemBinding.profileMenuDescription.isVisible = true
+            itemBinding.profileMenuDescription.text = getString(descriptionRes)
+        } else {
+            itemBinding.profileMenuDescription.isVisible = false
+        }
         itemBinding.root.setOnClickListener { onClick() }
     }
 

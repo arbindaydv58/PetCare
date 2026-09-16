@@ -2,6 +2,7 @@ package com.example.petcare.ui.screens.delegation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.petcare.R
 import com.example.petcare.data.local.entity.DelegationEntity
@@ -45,12 +46,17 @@ class DelegationAdapter(
             onDeleteClick: (DelegationEntity) -> Unit
         ) {
             val context = binding.root.context
+            val hasName = !delegation.recipientName.isNullOrBlank()
             binding.delegationItemPet.text = petName
             binding.delegationItemDate.text = dateFormat.format(Date(delegation.createdAt))
             binding.delegationItemRecipient.text = context.getString(
                 R.string.delegation_to_format,
                 delegation.recipientName?.takeIf { it.isNotBlank() } ?: delegation.recipientPhone
             )
+            binding.delegationItemContact.isVisible = hasName
+            if (hasName) {
+                binding.delegationItemContact.text = context.getString(R.string.delegation_contact_format, delegation.recipientPhone)
+            }
             binding.delegationItemTasks.text = context.getString(R.string.delegation_tasks_format, delegation.taskTitles)
             binding.btnDeleteDelegation.setOnClickListener { onDeleteClick(delegation) }
         }

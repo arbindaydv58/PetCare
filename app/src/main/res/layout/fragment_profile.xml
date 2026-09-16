@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     app:cardBackgroundColor="@color/soft_coral"
                     app:cardCornerRadius="@dimen/corner_radius_card"
-                    app:cardElevation="0dp">
+                    app:cardElevation="@dimen/elevation_level0">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -65,21 +65,27 @@
                         android:orientation="vertical"
                         android:padding="@dimen/spacing_l">
 
-                        <FrameLayout
+                        <!-- DESIGN SYSTEM v2: avatar promoted to a small elevated card (subtle
+                             lift) instead of a flat circle sitting directly on the header - a
+                             premium touch matching the "subtle elevation" system fundamental.
+                             The inner TextView keeps its id/text-only binding, unaffected. -->
+                        <com.google.android.material.card.MaterialCardView
                             android:layout_width="88dp"
                             android:layout_height="88dp"
-                            android:background="@drawable/bg_circle_white">
+                            app:cardBackgroundColor="@color/white"
+                            app:cardCornerRadius="@dimen/corner_radius_pill"
+                            app:cardElevation="@dimen/elevation_level1">
 
                             <TextView
                                 android:id="@+id/tv_profile_avatar"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
                                 android:textColor="@color/primary_coral"
                                 android:textSize="32sp"
                                 android:textStyle="bold"
                                 tools:text="P" />
-                        </FrameLayout>
+                        </com.google.android.material.card.MaterialCardView>
 
                         <TextView
                             android:id="@+id/tv_profile_username"
@@ -89,13 +95,30 @@
                             android:textAppearance="@style/TextAppearance.PetCare.ScreenTitle"
                             tools:text="Pet Parent" />
 
-                        <TextView
-                            android:id="@+id/tv_profile_email"
+                        <!-- DESIGN SYSTEM v2: small mail icon prefix - purely decorative, no
+                             new data (still the same FirebaseAuth email string). -->
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:textAppearance="@style/TextAppearance.PetCare.BodySecondary"
-                            tools:text="user@example.com" />
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:contentDescription="@null"
+                                android:src="@drawable/ic_mail"
+                                app:tint="@color/secondary_text" />
+
+                            <TextView
+                                android:id="@+id/tv_profile_email"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/spacing_xxs"
+                                android:textAppearance="@style/TextAppearance.PetCare.BodySecondary"
+                                tools:text="user@example.com" />
+                        </LinearLayout>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 

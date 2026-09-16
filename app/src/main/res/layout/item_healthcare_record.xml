@@ -49,8 +49,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textAllCaps="true"
+                    android:letterSpacing="0.03"
                     android:textColor="@color/primary_coral"
                     android:textSize="12sp"
+                    android:textStyle="bold"
                     tools:text="Vaccination" />
 
                 <TextView

@@ -14,11 +14,16 @@
         android:gravity="center_horizontal"
         android:padding="@dimen/spacing_l">
 
-        <FrameLayout
+        <!-- DESIGN SYSTEM v2: logo promoted to a subtly elevated card instead of a flat
+             circle, matching the same "premium lift" treatment applied to the Profile
+             avatar - a small but deliberate first impression cue. -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="@dimen/auth_logo_size"
             android:layout_height="@dimen/auth_logo_size"
             android:layout_marginTop="@dimen/spacing_l"
-            android:background="@drawable/bg_circle_white">
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/corner_radius_pill"
+            app:cardElevation="@dimen/elevation_level1">
 
             <ImageView
                 android:layout_width="@dimen/auth_logo_icon_size"
@@ -27,7 +32,7 @@
                 android:contentDescription="@string/auth_logo_content_description"
                 android:scaleType="centerInside"
                 android:src="@mipmap/petcare_logo" />
-        </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:layout_width="wrap_content"
@@ -60,6 +65,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/label_email"
+                    app:startIconDrawable="@drawable/ic_mail"
+                    app:startIconTint="@color/secondary_text"
                     style="@style/Widget.PetCare.TextInputLayout">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -76,6 +83,8 @@
                     android:hint="@string/label_password"
                     app:endIconContentDescription="@string/content_description_toggle_password"
                     app:endIconMode="password_toggle"
+                    app:startIconDrawable="@drawable/ic_lock"
+                    app:startIconTint="@color/secondary_text"
                     style="@style/Widget.PetCare.TextInputLayout">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -85,29 +94,41 @@
                         android:inputType="textPassword" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- DESIGN SYSTEM v2: inline warning icon via drawableStart - purely a
+                     layout attribute, so Kotlin's existing `.text =` / `.isVisible =` calls
+                     on this exact TextView are completely unaffected. -->
                 <TextView
                     android:id="@+id/error_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_s"
+                    android:drawableStart="@drawable/ic_warning"
+                    android:drawablePadding="@dimen/spacing_xs"
+                    android:drawableTint="@color/petcare_error"
+                    android:gravity="center_vertical"
                     android:textAppearance="@style/TextAppearance.PetCare.Error"
                     android:visibility="gone"
                     tools:text="Invalid email or password"
                     tools:visibility="visible" />
 
-                <TextView
+                <!-- DESIGN SYSTEM v2: promoted to the shared Button.Link style, compact
+                     insets keep it the same size as the plain text it replaces. Only
+                     `.isEnabled` is ever called on this id (LoginFragment.render()), which
+                     works identically on a MaterialButton. -->
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/forgot_password"
+                    style="@style/Widget.PetCare.Button.Link"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginTop="@dimen/spacing_xs"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:padding="@dimen/spacing_xs"
-                    android:text="@string/action_forgot_password"
-                    android:textColor="@color/primary_coral"
-                    android:textStyle="bold" />
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:paddingHorizontal="@dimen/spacing_xs"
+                    android:paddingVertical="@dimen/spacing_xxs"
+                    android:text="@string/action_forgot_password" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/login"
@@ -117,15 +138,19 @@
                     android:text="@string/action_sign_in"
                     style="@style/Widget.PetCare.Button.Primary" />
 
-                <ProgressBar
+                <!-- DESIGN SYSTEM v2: the reusable circular progress style from the design
+                     system, finally given a real application. Only `.isVisible`/
+                     `.visibility` is ever set on this id, unaffected by the widget swap. -->
+                <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:id="@+id/loading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/spacing_xs"
-                    android:indeterminateTint="@color/primary_coral"
                     android:visibility="gone"
-                    style="?android:attr/progressBarStyleSmall" />
+                    app:indicatorSize="28dp"
+                    app:trackThickness="3dp"
+                    style="@style/Widget.PetCare.ProgressIndicator.Circular" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

@@ -16,6 +16,19 @@
     <dimen name="corner_radius_button">28dp</dimen>
     <dimen name="corner_radius_pill">50dp</dimen>
     <dimen name="corner_radius_dropdown">14dp</dimen>
+    <!-- DESIGN SYSTEM v2 additions: named radii for components not yet used
+         anywhere in the app (dialogs already used corner_radius_card's value
+         directly; bottom sheets aren't used by any screen - this token is
+         defined for consistency if one is ever introduced, not wired up). -->
+    <dimen name="corner_radius_dialog">28dp</dimen>
+    <dimen name="corner_radius_bottom_sheet_top">28dp</dimen>
+
+    <!-- DESIGN SYSTEM v2: three elevation levels, borders preferred over deep
+         shadows - level0 (flat/bordered list rows), level1 (standard/hero
+         card lift), level2 (FAB / dragged / active-only, used sparingly). -->
+    <dimen name="elevation_level0">0dp</dimen>
+    <dimen name="elevation_level1">2dp</dimen>
+    <dimen name="elevation_level2">4dp</dimen>
 
     <dimen name="auth_logo_size">100dp</dimen>
     <dimen name="auth_logo_icon_size">70dp</dimen>

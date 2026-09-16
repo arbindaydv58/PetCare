@@ -1,25 +1,28 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.PetCare" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primary_coral</item>
+        <!-- DESIGN SYSTEM v2: theme attributes now point directly at the
+             semantic petcare_* tokens (the system's source of truth) instead
+             of the legacy alias names; the legacy aliases themselves are
+             unchanged and still resolve correctly for the ~50 layouts/
+             drawables that reference them directly. -->
+        <item name="colorPrimary">@color/petcare_primary</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorPrimaryVariant">@color/dark_coral</item>
-        <!-- PHASE 2: a real secondary hue (teal) instead of reusing primary -->
+        <item name="colorPrimaryVariant">@color/petcare_primary_variant</item>
         <item name="colorSecondary">@color/petcare_secondary</item>
-        <item name="colorSecondaryVariant">@color/dark_coral</item>
+        <item name="colorSecondaryVariant">@color/petcare_primary_variant</item>
         <item name="colorOnSecondary">@color/white</item>
-        <!-- PHASE 2: tertiary/error mapped to the Phase 1 accent + error tokens -->
         <item name="colorTertiary">@color/petcare_accent</item>
-        <item name="colorOnTertiary">@color/primary_text</item>
+        <item name="colorOnTertiary">@color/petcare_text_primary</item>
         <item name="colorError">@color/petcare_error</item>
         <item name="colorOnError">@color/white</item>
-        <item name="colorSurface">@color/white</item>
-        <item name="colorOnSurface">@color/primary_text</item>
-        <item name="colorOnSurfaceVariant">@color/secondary_text</item>
+        <item name="colorSurface">@color/petcare_surface</item>
+        <item name="colorOnSurface">@color/petcare_text_primary</item>
+        <item name="colorOnSurfaceVariant">@color/petcare_text_secondary</item>
         <item name="colorOutline">@color/border_color</item>
-        <item name="android:windowBackground">@color/app_background</item>
-        <item name="android:textColorPrimary">@color/primary_text</item>
-        <item name="android:textColorSecondary">@color/secondary_text</item>
+        <item name="android:windowBackground">@color/petcare_background</item>
+        <item name="android:textColorPrimary">@color/petcare_text_primary</item>
+        <item name="android:textColorSecondary">@color/petcare_text_secondary</item>
         <!-- PHASE 2: default style for any Chip that doesn't set style= explicitly
              (e.g. programmatically-created chips); existing static XML chips keep
              their current Widget.Material3.Chip.Filter look until each screen's

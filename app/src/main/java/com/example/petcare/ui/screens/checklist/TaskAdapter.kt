@@ -93,6 +93,14 @@ class TaskAdapter(
                 taskUi.petName,
                 timeFormat.format(Date(task.dueAt))
             )
+            binding.taskItemRoutineBadge.isVisible = task.routineId != null
+
+            val hasNotes = task.notes.isNotBlank()
+            binding.taskItemNotes.isVisible = hasNotes
+            if (hasNotes) {
+                binding.taskItemNotes.text = task.notes
+            }
+
             binding.taskItemCompletedIcon.isVisible = taskUi.isCompleted
             binding.checkboxComplete.setOnCheckedChangeListener(null)
             binding.checkboxComplete.isChecked = taskUi.isCompleted
@@ -101,6 +109,8 @@ class TaskAdapter(
             val completionAlpha = if (taskUi.isCompleted) 0.55f else 1f
             binding.taskItemTitle.alpha = completionAlpha
             binding.taskItemSubtitle.alpha = completionAlpha
+            binding.taskItemRoutineBadge.alpha = completionAlpha
+            binding.taskItemNotes.alpha = completionAlpha
             binding.taskItemTitle.paintFlags = if (taskUi.isCompleted) {
                 binding.taskItemTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             } else {

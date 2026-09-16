@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- DESIGN SYSTEM v2: the card was already android:checkable="true" but nothing ever
+     set its own checked state (only the inner CheckBox was driven from selection state),
+     so a selected task never looked visually different from an unselected one beyond the
+     tiny checkbox. DelegationFormFragment.kt now syncs the card's own isChecked, and this
+     stroke color reacts to it (coral when selected, neutral otherwise) via the same
+     state-list already used for filter chips. -->
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,9 +15,10 @@
     android:clickable="true"
     android:focusable="true"
     style="@style/Widget.PetCare.Card.Standard"
-    app:cardElevation="0dp"
-    app:strokeColor="@color/border_color"
-    app:strokeWidth="1dp">
+    app:cardElevation="@dimen/elevation_level0"
+    app:checkedIcon="@null"
+    app:strokeColor="@color/chip_stroke_state"
+    app:strokeWidth="1.5dp">
 
     <LinearLayout
         android:layout_width="match_parent"

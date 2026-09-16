@@ -57,6 +57,7 @@
     <string name="home_see_all_tasks">See all tasks</string>
     <string name="home_task_completed_content_description">Completed</string>
     <string name="home_task_pending_content_description">Pending</string>
+    <string name="task_part_of_routine_content_description">Part of a recurring routine</string>
 
     <string name="home_monthly_spending">Monthly Spending</string>
     <string name="home_manage_expenses_content_description">Manage expenses</string>
@@ -244,6 +245,8 @@
     <string name="healthcare_list_title">Healthcare</string>
     <string name="healthcare_subtitle_pet_format">Health records for %1$s</string>
     <string name="healthcare_subtitle_general">Manage all pet health records</string>
+    <string name="healthcare_total_records_label">Total Records</string>
+    <string name="healthcare_upcoming_label">Upcoming</string>
     <string name="healthcare_filter_all">All</string>
     <string name="empty_healthcare_title">No health records yet</string>
     <string name="empty_healthcare_description">Keep your pet\'s medical history organized and accessible.</string>
@@ -349,6 +352,8 @@
     <string name="empty_delegations_description">Previous care delegations will appear here.</string>
     <string name="delegation_to_format">To: %1$s</string>
     <string name="delegation_tasks_format">Tasks: %1$s</string>
+    <string name="delegation_contact_format">📞 %1$s</string>
+    <string name="delegation_sent_status">Sent</string>
     <string name="delete_delegation_dialog_title">Delete Delegation Record?</string>
     <string name="delete_delegation_dialog_message">Are you sure you want to remove this delegation record?</string>
     <string name="delete_delegation_content_description">Delete delegation</string>
@@ -378,6 +383,7 @@
     <string name="system_permission_description">Ensure notifications are enabled in Android settings.</string>
     <string name="action_enable">Enable</string>
     <string name="preferences_heading">Preferences</string>
+    <string name="reminder_categories_heading">Reminder Categories</string>
     <string name="label_all_reminders">All Reminders</string>
     <string name="description_all_reminders">Globally turn on/off all local alerts.</string>
     <string name="label_task_reminders">Care Task Reminders</string>
@@ -396,4 +402,10 @@
     <string name="about_petcare_menu_item">About PetCare</string>
     <string name="privacy_policy_menu_item">Privacy Policy</string>
     <string name="action_logout">Logout</string>
+    <string name="description_notification_settings_menu_item">Reminders, task and healthcare alerts</string>
+    <string name="description_delegation_history_menu_item">Past care handoffs sent by SMS</string>
+    <string name="description_about_petcare_menu_item">App version and information</string>
+    <string name="description_privacy_policy_menu_item">How your data is handled</string>
+    <string name="logout_dialog_title">Log out?</string>
+    <string name="logout_dialog_message">You\'ll need to sign in again to access your pets and care data.</string>
 </resources>

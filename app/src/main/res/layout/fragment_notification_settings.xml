@@ -41,12 +41,12 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <ProgressBar
+            <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/notification_settings_loading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:indeterminateTint="@color/primary_coral" />
+                style="@style/Widget.PetCare.ProgressIndicator.Circular" />
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/notification_settings_content"
@@ -71,7 +71,7 @@
                         android:visibility="gone"
                         app:cardBackgroundColor="@color/soft_coral"
                         app:cardCornerRadius="@dimen/corner_radius_card"
-                        app:cardElevation="0dp"
+                        app:cardElevation="@dimen/elevation_level0"
                         tools:visibility="visible">
 
                         <LinearLayout
@@ -117,6 +117,13 @@
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 
+                    <!-- DESIGN SYSTEM v2: split the previous single "Preferences" card into two
+                         clearly headed sections - the master switch stands alone (it's the one
+                         control that's never disabled), and the two dependent category toggles
+                         are grouped separately underneath it, making the master/dependent
+                         relationship visually obvious rather than three same-weight rows in one
+                         card. All three switches keep their exact ids and enabled/disabled
+                         logic - NotificationSettingsFragment.kt is unchanged. -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -132,49 +139,57 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
                             android:padding="@dimen/spacing_l">
 
-                            <!-- All Reminders -->
                             <LinearLayout
-                                android:layout_width="match_parent"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal">
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/label_all_reminders"
-                                        android:textColor="@color/primary_text"
-                                        android:textSize="15sp" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/description_all_reminders"
-                                        android:textAppearance="@style/TextAppearance.PetCare.Caption" />
-                                </LinearLayout>
-
-                                <com.google.android.material.materialswitch.MaterialSwitch
-                                    android:id="@+id/switch_all_reminders"
+                                <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    app:thumbTint="@color/white"
-                                    app:trackTint="@color/primary_coral" />
+                                    android:text="@string/label_all_reminders"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/description_all_reminders"
+                                    android:textAppearance="@style/TextAppearance.PetCare.Caption" />
                             </LinearLayout>
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:layout_marginVertical="@dimen/spacing_m"
-                                android:background="@color/border_color" />
+                            <com.google.android.material.materialswitch.MaterialSwitch
+                                android:id="@+id/switch_all_reminders"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:thumbTint="@color/white"
+                                app:trackTint="@color/primary_coral" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_l"
+                        android:layout_marginBottom="@dimen/spacing_s"
+                        android:text="@string/reminder_categories_heading"
+                        android:textAppearance="@style/TextAppearance.PetCare.SectionHeader" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.PetCare.Card">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/spacing_l">
 
                             <!-- Care Task Reminders -->
                             <LinearLayout

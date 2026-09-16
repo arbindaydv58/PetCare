@@ -14,26 +14,41 @@
          to pick up the refreshed palette.
          =================================================================== -->
 
+    <!-- ===================================================================
+         DESIGN SYSTEM v2 — warmer/more muted brand hues for a premium,
+         less-saturated feel; secondary deepened so it reads as a supporting
+         accent rather than competing with primary. Values only — every
+         token name below is unchanged, so no layout/drawable/style needs
+         to be touched to pick this up.
+         =================================================================== -->
+
     <!-- Brand -->
-    <color name="petcare_primary">#F2585C</color>
-    <color name="petcare_primary_variant">#D8474B</color>
-    <color name="petcare_secondary">#4FA3B0</color>
+    <color name="petcare_primary">#F0615A</color>
+    <color name="petcare_primary_variant">#D9504A</color>
+    <color name="petcare_primary_tint">#FCE7E5</color>
+    <color name="petcare_secondary">#3F8E9B</color>
     <color name="petcare_accent">#F2A65A</color>
 
     <!-- Surfaces -->
-    <color name="petcare_background">#FFF8F6</color>
+    <color name="petcare_background">#FBF7F5</color>
     <color name="petcare_surface">#FFFFFF</color>
-    <color name="petcare_surface_variant">#FFF4F1</color>
+    <color name="petcare_surface_variant">#FBF3F1</color>
 
     <!-- Text -->
     <color name="petcare_text_primary">#1F1B1D</color>
     <color name="petcare_text_secondary">#6F696D</color>
-    <color name="petcare_text_muted">#8B8489</color>
+    <color name="petcare_text_muted">#9C959A</color>
 
-    <!-- States -->
-    <color name="petcare_success">#4CAE7D</color>
-    <color name="petcare_warning">#E7A84B</color>
-    <color name="petcare_error">#E14F55</color>
+    <!-- States (kept distinct from brand primary/secondary/accent so status
+         is never ambiguous with "this is a coral button") -->
+    <color name="petcare_success">#3FA66E</color>
+    <color name="petcare_success_tint">#E3F5EA</color>
+    <color name="petcare_warning">#E2A23E</color>
+    <color name="petcare_warning_tint">#FCEFDA</color>
+    <color name="petcare_error">#E1524F</color>
+    <color name="petcare_error_tint">#FBE4E3</color>
+    <color name="petcare_info">@color/petcare_secondary</color>
+    <color name="petcare_info_tint">#E3F3F5</color>
 
     <!-- Navigation -->
     <color name="petcare_nav_unselected">#9B9598</color>

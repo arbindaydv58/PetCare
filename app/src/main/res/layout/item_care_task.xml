@@ -7,8 +7,7 @@
     android:layout_marginBottom="@dimen/spacing_m"
     android:clickable="true"
     android:focusable="true"
-    style="@style/Widget.PetCare.Card.Standard"
-    app:cardElevation="1dp">
+    style="@style/Widget.PetCare.Card.Standard">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,13 +39,50 @@
                 android:textAppearance="@style/TextAppearance.PetCare.CardTitle"
                 tools:text="Morning Feeding" />
 
-            <TextView
-                android:id="@+id/task_item_subtitle"
+            <!-- DESIGN SYSTEM v2: subtitle row now also surfaces whether this task
+                 belongs to a recurring routine (task.routineId != null - an existing
+                 field that was never shown anywhere on the checklist card before). -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/task_item_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.PetCare.Caption"
+                    tools:text="Max • 8:00 AM" />
+
+                <ImageView
+                    android:id="@+id/task_item_routine_badge"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_marginStart="@dimen/spacing_xxs"
+                    android:contentDescription="@string/task_part_of_routine_content_description"
+                    android:src="@drawable/ic_sync"
+                    android:visibility="gone"
+                    app:tint="@color/secondary_text"
+                    tools:visibility="visible" />
+            </LinearLayout>
+
+            <!-- DESIGN SYSTEM v2: surfaces task.notes (an existing field that was
+                 previously only visible inside the Edit Task form, never in the
+                 read-only checklist). Hidden when blank. -->
+            <TextView
+                android:id="@+id/task_item_notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.PetCare.Caption"
-                tools:text="Max • 8:00 AM" />
+                android:textStyle="italic"
+                android:visibility="gone"
+                tools:text="Use the blue leash by the door"
+                tools:visibility="visible" />
         </LinearLayout>
 
         <ImageView
@@ -60,10 +96,16 @@
             app:tint="@color/success_green"
             tools:visibility="visible" />
 
+        <!-- DESIGN SYSTEM v2 consistency pass: bumped from 36dp toward the recommended
+             minimum touch target (kept at 40dp rather than the full 48dp since three
+             buttons already share this row with the checkbox and text column - a modest,
+             safe improvement to tap accuracy without risking overflow on narrow screens).
+             Small padding keeps the visible icon glyph the same size as before. -->
         <ImageButton
             android:id="@+id/btn_edit_task_item"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="2dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/edit_task_content_description"
             android:src="@drawable/ic_edit"
@@ -71,8 +113,9 @@
 
         <ImageButton
             android:id="@+id/btn_delegate_task_item"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="2dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/delegate_task_content_description"
             android:src="@drawable/ic_send"
@@ -80,8 +123,9 @@
 
         <ImageButton
             android:id="@+id/btn_delete_task_item"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="2dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/delete_task_content_description"
             android:src="@drawable/ic_delete"

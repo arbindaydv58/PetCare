@@ -5,19 +5,27 @@
     <style name="TextAppearance.PetCare.Heading" parent="TextAppearance.Material3.HeadlineMedium">
         <item name="android:textColor">@color/primary_text</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">28sp</item>
     </style>
 
     <style name="TextAppearance.PetCare.Body" parent="TextAppearance.Material3.BodyLarge">
         <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
+    <!-- DESIGN SYSTEM v2: uses the semantic error token (not brand coral) so
+         validation text is never visually confusable with a coral CTA. -->
     <style name="TextAppearance.PetCare.Error" parent="TextAppearance.Material3.BodySmall">
-        <item name="android:textColor">@color/dark_coral</item>
+        <item name="android:textColor">@color/petcare_error</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
+    <!-- DESIGN SYSTEM v2: explicitly flat (no press-elevation animation) - a
+         premium "flat pill" rather than a glossy raised button. -->
     <style name="Widget.PetCare.Button.Primary" parent="Widget.Material3.Button">
         <item name="backgroundTint">@color/primary_coral</item>
         <item name="cornerRadius">@dimen/corner_radius_button</item>
+        <item name="android:stateListAnimator">@null</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/white</item>
@@ -49,53 +57,94 @@
     <style name="Widget.PetCare.Card" parent="Widget.Material3.CardView.Elevated">
         <item name="cardBackgroundColor">@color/white</item>
         <item name="cardCornerRadius">@dimen/corner_radius_card</item>
-        <item name="cardElevation">2dp</item>
+        <item name="cardElevation">@dimen/elevation_level1</item>
     </style>
 
     <!-- Smaller-radius variant of Widget.PetCare.Card for list rows (tasks, pets, healthcare,
          expenses) so large feature cards (28dp) and everyday list rows (18dp) read as distinct
-         tiers, per the design system's "large cards vs standard cards" hierarchy. -->
+         tiers, per the design system's "large cards vs standard cards" hierarchy.
+         DESIGN SYSTEM v2: flattened to elevation_level0 with a subtle 1dp
+         border instead of a shadow, per "prefer subtle borders and soft
+         elevation instead of heavy shadows." -->
     <style name="Widget.PetCare.Card.Standard">
         <item name="cardCornerRadius">@dimen/corner_radius_card_small</item>
+        <item name="cardElevation">@dimen/elevation_level0</item>
+        <item name="strokeColor">@color/border_color</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <!-- DESIGN SYSTEM v2: border-only card (white fill, no shadow) for grouped
+         info blocks (e.g. Pet/Expense/Healthcare Details bio rows) that
+         shouldn't compete visually with a real elevated card. Not applied to
+         any layout by this change. -->
+    <style name="Widget.PetCare.Card.Outlined">
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardCornerRadius">@dimen/corner_radius_card_small</item>
+        <item name="cardElevation">@dimen/elevation_level0</item>
+        <item name="strokeColor">@color/border_color</item>
+        <item name="strokeWidth">1dp</item>
     </style>
 
     <style name="Widget.PetCare.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
         <item name="cornerRadius">@dimen/corner_radius_button</item>
         <item name="strokeColor">@color/border_color</item>
+        <item name="strokeWidth">1.5dp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/primary_text</item>
+    </style>
+
+    <!-- DESIGN SYSTEM v2: circular icon-only button - formalizes the header
+         back-button / trailing-action pattern already used ad hoc (raw
+         ImageView + bg_circle_white) as a real reusable style, available for
+         screens to opt into during their own redesign pass. Not applied to
+         any layout by this change. -->
+    <style name="Widget.PetCare.Button.Icon" parent="Widget.Material3.Button.IconButton">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="cornerRadius">@dimen/corner_radius_pill</item>
+        <item name="backgroundTint">@color/white</item>
+        <item name="iconTint">@color/primary_text</item>
+        <item name="android:stateListAnimator">@null</item>
     </style>
 
     <!-- Pill-shaped label/badge (status chips, frequency badges) - 50%-rounded per the design
          system's shape scale, tinted per-instance via app:cardBackgroundColor / textColor. -->
     <style name="Widget.PetCare.Pill" parent="Widget.Material3.CardView.Elevated">
         <item name="cardCornerRadius">@dimen/corner_radius_pill</item>
-        <item name="cardElevation">0dp</item>
+        <item name="cardElevation">@dimen/elevation_level0</item>
     </style>
 
     <style name="TextAppearance.PetCare.ScreenTitle" parent="TextAppearance.Material3.TitleLarge">
         <item name="android:textColor">@color/primary_text</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">22sp</item>
     </style>
 
+    <!-- DESIGN SYSTEM v2: bumped from Material3's TitleMedium default (16sp)
+         to 18sp so section headers are clearly a step above CardTitle in the
+         hierarchy. -->
     <style name="TextAppearance.PetCare.SectionHeader" parent="TextAppearance.Material3.TitleMedium">
         <item name="android:textColor">@color/primary_text</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="TextAppearance.PetCare.CardTitle" parent="TextAppearance.Material3.TitleSmall">
         <item name="android:textColor">@color/primary_text</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="TextAppearance.PetCare.Caption" parent="TextAppearance.Material3.BodySmall">
         <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="TextAppearance.PetCare.Stat" parent="TextAppearance.Material3.HeadlineSmall">
         <item name="android:textColor">@color/primary_text</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">24sp</item>
     </style>
 
     <!-- ===================================================================
@@ -108,13 +157,19 @@
 
     <style name="TextAppearance.PetCare.BodySecondary" parent="TextAppearance.Material3.BodyMedium">
         <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
+    <!-- DESIGN SYSTEM v2: bumped from Material3's LabelMedium default (12sp)
+         to 13sp for slightly better legibility as a standalone field label. -->
     <style name="TextAppearance.PetCare.InputLabel" parent="TextAppearance.Material3.LabelMedium">
         <item name="android:textColor">@color/secondary_text</item>
+        <item name="android:textSize">13sp</item>
     </style>
 
-    <style name="TextAppearance.PetCare.NavLabel" parent="TextAppearance.Material3.LabelSmall" />
+    <style name="TextAppearance.PetCare.NavLabel" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:textSize">11sp</item>
+    </style>
 
     <!-- Destructive action variant, formalizing the pattern already used for
          Profile's Logout button (soft-error fill, error-colored text/icon)
@@ -124,6 +179,7 @@
     <style name="Widget.PetCare.Button.Destructive" parent="Widget.Material3.Button">
         <item name="backgroundTint">@color/soft_coral</item>
         <item name="cornerRadius">@dimen/corner_radius_button</item>
+        <item name="android:stateListAnimator">@null</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/petcare_error</item>
@@ -178,7 +234,7 @@
          existing confirm/cancel dialog automatically inherits the refined
          corner radius and PetCare button treatment. -->
     <style name="ShapeAppearanceOverlay.PetCare.Dialog" parent="">
-        <item name="cornerSize">@dimen/corner_radius_card</item>
+        <item name="cornerSize">@dimen/corner_radius_dialog</item>
     </style>
 
     <style name="ThemeOverlay.PetCare.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog.Centered">
@@ -186,5 +242,22 @@
         <item name="colorPrimary">@color/petcare_primary</item>
         <item name="buttonBarPositiveButtonStyle">@style/Widget.PetCare.Button.Link</item>
         <item name="buttonBarNegativeButtonStyle">@style/Widget.PetCare.Button.Link</item>
+    </style>
+
+    <!-- ===================================================================
+         DESIGN SYSTEM v2 additions: progress indicators (§22/§26 of the
+         approved spec) - coral fill on a soft track. Available for screens
+         to opt into during their own redesign pass; not applied to any
+         layout by this change (existing progress bars keep their current
+         style/tint until then).
+         =================================================================== -->
+    <style name="Widget.PetCare.ProgressIndicator.Linear" parent="Widget.Material3.LinearProgressIndicator">
+        <item name="indicatorColor">@color/petcare_primary</item>
+        <item name="trackColor">@color/soft_coral</item>
+        <item name="trackCornerRadius">4dp</item>
+    </style>
+
+    <style name="Widget.PetCare.ProgressIndicator.Circular" parent="Widget.Material3.CircularProgressIndicator">
+        <item name="indicatorColor">@color/petcare_primary</item>
     </style>
 </resources>

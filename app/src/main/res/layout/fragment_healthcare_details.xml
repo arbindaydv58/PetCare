@@ -28,10 +28,22 @@
                 android:src="@drawable/ic_arrow_back"
                 app:tint="@color/primary_text" />
 
+            <!-- BUGFIX (found via on-device verification): match_parent (not
+                 wrap_content) is required here - with wrap_content, the view sized
+                 itself to the text and toEndOf pinned it flush against the back
+                 button instead of centering it, so the title rendered left-aligned
+                 next to the back arrow on every load, not just under text expansion.
+                 match_parent bounded by toStartOf/toEndOf fills the actual available
+                 gap, letting gravity="center" center the text within it as intended. -->
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_toStartOf="@id/healthcare_details_actions"
+                android:layout_toEndOf="@id/btn_back"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
                 android:text="@string/healthcare_details_title"
                 android:textAppearance="@style/TextAppearance.PetCare.ScreenTitle" />
 
@@ -78,13 +90,13 @@
                 android:textAppearance="@style/TextAppearance.PetCare.Body"
                 android:visibility="gone" />
 
-            <ProgressBar
+            <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/healthcare_details_loading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:indeterminateTint="@color/primary_coral"
-                android:visibility="gone" />
+                android:visibility="gone"
+                style="@style/Widget.PetCare.ProgressIndicator.Circular" />
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/healthcare_details_content"
@@ -105,7 +117,7 @@
                         android:layout_height="wrap_content"
                         app:cardBackgroundColor="@color/soft_coral"
                         app:cardCornerRadius="@dimen/corner_radius_card"
-                        app:cardElevation="0dp">
+                        app:cardElevation="@dimen/elevation_level0">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -141,8 +153,11 @@
                                     android:id="@+id/tv_healthcare_type"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:textAllCaps="true"
+                                    android:letterSpacing="0.03"
                                     android:textColor="@color/primary_coral"
                                     android:textSize="13sp"
+                                    android:textStyle="bold"
                                     tools:text="Vaccination" />
 
                                 <TextView
@@ -301,7 +316,7 @@
                             android:layout_height="wrap_content"
                             app:cardBackgroundColor="@color/soft_lavender"
                             app:cardCornerRadius="@dimen/corner_radius_card"
-                            app:cardElevation="0dp">
+                            app:cardElevation="@dimen/elevation_level0">
 
                             <LinearLayout
                                 android:layout_width="match_parent"

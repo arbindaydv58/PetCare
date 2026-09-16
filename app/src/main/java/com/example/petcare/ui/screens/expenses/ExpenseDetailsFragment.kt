@@ -1,11 +1,13 @@
 package com.example.petcare.ui.screens.expenses
 
+import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -86,6 +88,9 @@ class ExpenseDetailsFragment : Fragment() {
         binding.tvExpenseTitle.text = expense.title
         binding.tvExpenseAmount.text = currencyFormatter.format(expense.amount)
         binding.expenseDetailsIcon.setImageResource(expenseIconFor(expense.category))
+        binding.expenseDetailsIconContainer.backgroundTintList = ColorStateList.valueOf(
+            ContextCompat.getColor(requireContext(), expenseColorFor(expense.category))
+        )
 
         val petName = expense.petId?.let { id -> petViewModel.pets.value.find { it.id == id }?.name }
             ?: getString(R.string.general_pet_expense_label)

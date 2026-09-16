@@ -135,8 +135,15 @@ class HealthcareListFragment : Fragment() {
         if (!hasLoadedOnce) {
             binding.rvHealthcare.isVisible = false
             binding.tvEmptyHealthcare.isVisible = false
+            binding.healthcareSummaryRow.isVisible = false
             return
         }
+
+        binding.healthcareSummaryRow.isVisible = latestRecords.isNotEmpty()
+        binding.healthcareTotalRecordsValue.text = latestRecords.size.toString()
+        binding.healthcareUpcomingValue.text = latestRecords.count {
+            it.nextDueDate != null && it.nextDueDate > System.currentTimeMillis()
+        }.toString()
 
         val filtered = if (selectedFilter == FILTER_ALL) latestRecords else latestRecords.filter { it.type == selectedFilter }
 

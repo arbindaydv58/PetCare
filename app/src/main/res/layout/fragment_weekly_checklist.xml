@@ -29,9 +29,14 @@
                 app:tint="@color/primary_text" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_toStartOf="@id/btn_add_task_toolbar"
+                android:layout_toEndOf="@id/btn_back"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
                 android:text="@string/weekly_checklist_title"
                 android:textAppearance="@style/TextAppearance.PetCare.ScreenTitle" />
 
@@ -108,22 +113,52 @@
                 android:visibility="gone"
                 tools:listitem="@layout/item_care_task" />
 
-            <TextView
+            <!-- DESIGN SYSTEM v2: same icon-container empty-state treatment as the Daily
+                 view and the rest of the app, instead of a bare line of text. The id +
+                 visibility toggling WeeklyChecklistFragment.kt performs (binding
+                 .emptyWeeklyTasks.isVisible) now moves to this wrapping LinearLayout so
+                 the icon and text show/hide together as one block. -->
+            <LinearLayout
                 android:id="@+id/empty_weekly_tasks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/empty_weekly_checklist"
-                android:textAppearance="@style/TextAppearance.PetCare.Body"
-                android:visibility="gone" />
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="@dimen/spacing_l"
+                android:visibility="gone">
 
-            <ProgressBar
+                <FrameLayout
+                    android:layout_width="88dp"
+                    android:layout_height="88dp"
+                    android:background="@drawable/bg_circle_white"
+                    android:backgroundTint="@color/petcare_primary_tint">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_check_circle"
+                        app:tint="@color/primary_coral" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_m"
+                    android:gravity="center"
+                    android:text="@string/empty_weekly_checklist"
+                    android:textAppearance="@style/TextAppearance.PetCare.SectionHeader" />
+            </LinearLayout>
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/weekly_tasks_loading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:indeterminateTint="@color/primary_coral"
-                android:visibility="gone" />
+                android:visibility="gone"
+                style="@style/Widget.PetCare.ProgressIndicator.Circular" />
         </FrameLayout>
     </LinearLayout>
 

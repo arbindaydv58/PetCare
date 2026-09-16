@@ -14,11 +14,13 @@
         android:gravity="center_horizontal"
         android:padding="@dimen/spacing_l">
 
-        <FrameLayout
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="@dimen/auth_logo_size"
             android:layout_height="@dimen/auth_logo_size"
             android:layout_marginTop="@dimen/spacing_l"
-            android:background="@drawable/bg_circle_white">
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/corner_radius_pill"
+            app:cardElevation="@dimen/elevation_level1">
 
             <ImageView
                 android:layout_width="@dimen/auth_logo_icon_size"
@@ -27,7 +29,7 @@
                 android:contentDescription="@string/auth_logo_content_description"
                 android:scaleType="centerInside"
                 android:src="@mipmap/petcare_logo" />
-        </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:layout_width="wrap_content"
@@ -60,6 +62,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/label_username"
+                    app:startIconDrawable="@drawable/ic_person"
+                    app:startIconTint="@color/secondary_text"
                     style="@style/Widget.PetCare.TextInputLayout">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -74,6 +78,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_m"
                     android:hint="@string/label_email"
+                    app:startIconDrawable="@drawable/ic_mail"
+                    app:startIconTint="@color/secondary_text"
                     style="@style/Widget.PetCare.TextInputLayout">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -90,6 +96,8 @@
                     android:hint="@string/label_password"
                     app:endIconContentDescription="@string/content_description_toggle_password"
                     app:endIconMode="password_toggle"
+                    app:startIconDrawable="@drawable/ic_lock"
+                    app:startIconTint="@color/secondary_text"
                     style="@style/Widget.PetCare.TextInputLayout">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -107,6 +115,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_m"
                     android:hint="@string/label_confirm_password"
+                    app:startIconDrawable="@drawable/ic_lock"
+                    app:startIconTint="@color/secondary_text"
                     style="@style/Widget.PetCare.TextInputLayout">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -121,6 +131,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_s"
+                    android:drawableStart="@drawable/ic_warning"
+                    android:drawablePadding="@dimen/spacing_xs"
+                    android:drawableTint="@color/petcare_error"
+                    android:gravity="center_vertical"
                     android:textAppearance="@style/TextAppearance.PetCare.Error"
                     android:visibility="gone"
                     tools:text="Passwords do not match."
@@ -134,15 +148,16 @@
                     android:text="@string/action_register"
                     style="@style/Widget.PetCare.Button.Primary" />
 
-                <ProgressBar
+                <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:id="@+id/loading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/spacing_xs"
-                    android:indeterminateTint="@color/primary_coral"
                     android:visibility="gone"
-                    style="?android:attr/progressBarStyleSmall" />
+                    app:indicatorSize="28dp"
+                    app:trackThickness="3dp"
+                    style="@style/Widget.PetCare.ProgressIndicator.Circular" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

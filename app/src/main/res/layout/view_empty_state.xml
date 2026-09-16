@@ -8,14 +8,24 @@
     android:orientation="vertical"
     android:padding="@dimen/spacing_l">
 
-    <ImageView
-        android:id="@+id/empty_state_icon"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:alpha="0.4"
-        android:contentDescription="@null"
-        android:src="@drawable/ic_pets"
-        app:tint="@color/primary_coral" />
+    <!-- DESIGN SYSTEM v2: icon sits in a soft tinted circular container (matching the
+         icon-container convention used everywhere else in the app) instead of a bare
+         faded icon, using the new petcare_primary_tint token. -->
+    <FrameLayout
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:background="@drawable/bg_circle_white"
+        android:backgroundTint="@color/petcare_primary_tint">
+
+        <ImageView
+            android:id="@+id/empty_state_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_pets"
+            app:tint="@color/primary_coral" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/empty_state_title"
@@ -23,9 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_m"
         android:gravity="center"
-        android:textColor="@color/primary_text"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.PetCare.SectionHeader"
         tools:text="No pets yet" />
 
     <TextView
@@ -34,8 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_xs"
         android:gravity="center"
-        android:textColor="@color/secondary_text"
-        android:textSize="14sp"
+        android:textAppearance="@style/TextAppearance.PetCare.BodySecondary"
         tools:text="Add your first pet to start tracking their care journey." />
 
     <com.google.android.material.button.MaterialButton

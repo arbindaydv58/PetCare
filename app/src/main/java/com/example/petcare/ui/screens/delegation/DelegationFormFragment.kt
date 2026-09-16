@@ -19,6 +19,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.card.MaterialCardView
 import com.example.petcare.R
 import com.example.petcare.data.local.entity.PetEntity
 import com.example.petcare.databinding.FragmentDelegationFormBinding
@@ -169,6 +170,7 @@ class DelegationFormFragment : Fragment() {
                 checkbox.setOnCheckedChangeListener(null)
                 checkbox.isChecked = state.selectedTaskIds.contains(taskId)
                 checkbox.setOnCheckedChangeListener { _, _ -> viewModel.toggleTaskSelection(taskId) }
+                (row as? MaterialCardView)?.isChecked = state.selectedTaskIds.contains(taskId)
             }
         }
     }
@@ -183,6 +185,7 @@ class DelegationFormFragment : Fragment() {
         )
         itemBinding.delegationTaskCheckbox.isChecked = state.selectedTaskIds.contains(taskUi.task.id)
         itemBinding.delegationTaskCheckbox.setOnCheckedChangeListener { _, _ -> viewModel.toggleTaskSelection(taskUi.task.id) }
+        itemBinding.root.isChecked = state.selectedTaskIds.contains(taskUi.task.id)
         itemBinding.root.setOnClickListener { viewModel.toggleTaskSelection(taskUi.task.id) }
     }
 

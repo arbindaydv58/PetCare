@@ -43,14 +43,16 @@
                 <!-- The dynamic greeting (existing FirebaseAuth displayName lookup in
                      HomeFragment.onViewCreated) carries the visual weight here - the small
                      static prefix above it never references a name, so the parent's real
-                     name is never duplicated or contradicted between the two lines. -->
+                     name is never duplicated or contradicted between the two lines.
+                     DESIGN SYSTEM v2: uses the Heading style (28sp) rather than ScreenTitle,
+                     giving Home's greeting a distinct "hero" weight other screens' more
+                     modest headers don't have. -->
                 <TextView
                     android:id="@+id/home_greeting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:textAppearance="@style/TextAppearance.PetCare.ScreenTitle"
-                    android:textSize="24sp"
+                    android:textAppearance="@style/TextAppearance.PetCare.Heading"
                     tools:text="Hello, Arbinda 👋" />
             </LinearLayout>
 
@@ -174,7 +176,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/spacing_l" />
 
-            <!-- 4. Quick metrics row -->
+            <!-- 4. Quick metrics row. DESIGN SYSTEM v2: uses the smaller "standard" card
+                 radius (20dp) rather than the hero radius (28dp) - these are compact
+                 secondary stats, not hero elements, so the tier distinction reinforces the
+                 hierarchy (hero pet card / health / finance cards stay at the larger radius). -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -186,8 +191,8 @@
                     android:layout_marginEnd="@dimen/spacing_m"
                     android:layout_weight="1"
                     app:cardBackgroundColor="@color/soft_blue"
-                    app:cardCornerRadius="@dimen/corner_radius_card"
-                    app:cardElevation="0dp">
+                    app:cardCornerRadius="@dimen/corner_radius_card_small"
+                    app:cardElevation="@dimen/elevation_level0">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -224,8 +229,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:cardBackgroundColor="@color/soft_yellow"
-                    app:cardCornerRadius="@dimen/corner_radius_card"
-                    app:cardElevation="0dp">
+                    app:cardCornerRadius="@dimen/corner_radius_card_small"
+                    app:cardElevation="@dimen/elevation_level0">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -339,14 +344,15 @@
                 android:text="@string/home_today_care_plan"
                 android:textAppearance="@style/TextAppearance.PetCare.SectionHeader" />
 
+            <!-- DESIGN SYSTEM v2: outlined card (white fill + border, no shadow) instead of
+                 a translucent overlay fill, matching the system's convention for secondary/
+                 inset content. -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/home_no_tasks_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:cardBackgroundColor="@color/petcare_overlay_light"
-                app:cardCornerRadius="@dimen/corner_radius_card"
-                app:cardElevation="0dp">
+                style="@style/Widget.PetCare.Card.Outlined">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -362,17 +368,23 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
 
-            <TextView
+            <!-- DESIGN SYSTEM v2: promoted from a plain TextView to the shared
+                 Button.Link style with a trailing chevron, matching the "modern
+                 buttons" objective. Same id/visibility/click-listener wiring in
+                 HomeFragment.kt is unaffected (it only calls isVisible/setOnClickListener,
+                 both View-level APIs). -->
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/home_see_all_tasks"
+                style="@style/Widget.PetCare.Button.Link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:background="?attr/selectableItemBackground"
-                android:padding="@dimen/spacing_s"
                 android:text="@string/home_see_all_tasks"
-                android:textColor="@color/primary_coral"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:icon="@drawable/ic_chevron_right"
+                app:iconGravity="textEnd"
+                app:iconPadding="4dp"
+                app:iconTint="@color/primary_coral" />
 
             <Space
                 android:layout_width="match_parent"
@@ -385,7 +397,7 @@
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/soft_lavender"
                 app:cardCornerRadius="@dimen/corner_radius_card"
-                app:cardElevation="0dp">
+                app:cardElevation="@dimen/elevation_level0">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -435,7 +447,7 @@
                         android:focusable="true"
                         app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="@dimen/corner_radius_pill"
-                        app:cardElevation="0dp">
+                        app:cardElevation="@dimen/elevation_level0">
 
                         <ImageView
                             android:layout_width="@dimen/icon_size_small"

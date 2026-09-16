@@ -8,7 +8,6 @@
     android:clickable="true"
     android:focusable="true"
     style="@style/Widget.PetCare.Card.Standard"
-    app:cardElevation="1dp"
     app:contentPadding="0dp">
 
     <LinearLayout
@@ -28,17 +27,19 @@
                 android:scaleType="centerCrop"
                 android:visibility="gone" />
 
+            <!-- DESIGN SYSTEM v2: softer tint + full-opacity icon, matching the
+                 icon-container treatment used for empty states app-wide, instead
+                 of a saturated fill with a half-transparent icon. -->
             <FrameLayout
                 android:id="@+id/item_pet_image_placeholder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/soft_coral">
+                android:background="@color/petcare_primary_tint">
 
                 <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
                     android:layout_gravity="center"
-                    android:alpha="0.5"
                     android:contentDescription="@null"
                     android:src="@drawable/ic_pets"
                     app:tint="@color/primary_coral" />
@@ -51,6 +52,14 @@
             android:orientation="vertical"
             android:padding="@dimen/spacing_l">
 
+            <!-- DESIGN SYSTEM v2: the previous "♥ Healthy" pill here was a static
+                 label with no underlying data (no health-status field exists on
+                 PetEntity) - removed per "use actual application data, don't
+                 hardcode fake information." Replaced with a plain decorative
+                 chevron affordance clarifying the existing full-row tap target
+                 (same PetAdapter click listener, opens Pet Details where the
+                 real Edit/Delete actions live) rather than implying a second,
+                 new interaction. -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,7 +87,7 @@
                         android:layout_marginTop="@dimen/spacing_xxs"
                         app:cardBackgroundColor="@color/petcare_surface_variant"
                         app:cardCornerRadius="@dimen/corner_radius_pill"
-                        app:cardElevation="0dp">
+                        app:cardElevation="@dimen/elevation_level0">
 
                         <TextView
                             android:id="@+id/item_pet_species_breed"
@@ -91,34 +100,43 @@
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/soft_green"
-                    app:cardCornerRadius="@dimen/corner_radius_pill"
-                    app:cardElevation="0dp">
+                <FrameLayout
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_circle_white"
+                    android:backgroundTint="@color/petcare_surface_variant">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingHorizontal="@dimen/spacing_s"
-                        android:paddingVertical="6dp"
-                        android:text="@string/pet_healthy_badge"
-                        android:textColor="@color/success_green"
-                        android:textSize="11sp"
-                        android:textStyle="bold" />
-                </com.google.android.material.card.MaterialCardView>
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_chevron_right"
+                        app:tint="@color/secondary_text" />
+                </FrameLayout>
             </LinearLayout>
 
+            <!-- DESIGN SYSTEM v2: added small icon prefixes matching Home's weight/age
+                 stat cards (same icons/tints), so the same piece of information reads
+                 consistently wherever it appears in the app. -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_m"
                 android:orientation="horizontal">
 
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginTop="2dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_bolt"
+                    app:tint="@color/warning_yellow" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_xxs"
                     android:orientation="vertical">
 
                     <TextView
@@ -135,10 +153,19 @@
                         android:textAppearance="@style/TextAppearance.PetCare.Caption" />
                 </LinearLayout>
 
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="@dimen/spacing_xl"
+                    android:layout_marginTop="2dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_monitor_weight"
+                    app:tint="@color/info_blue" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_xl"
+                    android:layout_marginStart="@dimen/spacing_xxs"
                     android:orientation="vertical">
 
                     <TextView

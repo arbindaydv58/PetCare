@@ -178,6 +178,7 @@ class PetDetailsFragment : Fragment() {
         binding.petDetailsSpeciesBreed.text = "${pet.species} • ${pet.breed.ifBlank { getString(R.string.not_provided) }}"
         binding.petDetailsWeight.text = getString(R.string.pet_weight_kg, pet.weight.toString())
         binding.petDetailsAge.text = getString(R.string.pet_age_years, pet.ageInYears())
+        binding.petDetailsGender.text = pet.gender.ifBlank { getString(R.string.not_provided) }
 
         bindInfoRow(binding.rowDob.root, R.string.label_birthday, pet.formattedDate())
         bindInfoRow(binding.rowGender.root, R.string.label_gender, pet.gender.ifBlank { getString(R.string.not_provided) })

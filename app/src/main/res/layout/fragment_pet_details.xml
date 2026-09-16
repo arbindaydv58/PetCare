@@ -24,15 +24,25 @@
             android:src="@drawable/ic_arrow_back"
             app:tint="@color/primary_text" />
 
+        <!-- CONSISTENCY FIX: constrained between the back button and the trailing
+             actions (rather than relying on centerInParent alone), with ellipsize -
+             this title shows the pet's actual name, which is user-entered and can be
+             long, so this prevents it from overlapping the edit/delete buttons. -->
         <TextView
             android:id="@+id/pet_details_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_toStartOf="@id/pet_details_actions"
+            android:layout_toEndOf="@id/btn_back"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
             android:textAppearance="@style/TextAppearance.PetCare.ScreenTitle"
             tools:text="Max" />
 
         <LinearLayout
+            android:id="@+id/pet_details_actions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -81,7 +91,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/Widget.PetCare.Card"
-                    app:cardElevation="1dp"
                     app:contentPadding="0dp">
 
                     <LinearLayout
@@ -105,13 +114,12 @@
                                 android:id="@+id/pet_details_image_placeholder"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@color/soft_coral">
+                                android:background="@color/petcare_primary_tint">
 
                                 <ImageView
                                     android:layout_width="90dp"
                                     android:layout_height="90dp"
                                     android:layout_gravity="center"
-                                    android:alpha="0.5"
                                     android:contentDescription="@null"
                                     android:src="@drawable/ic_pets"
                                     app:tint="@color/primary_coral" />
@@ -144,7 +152,13 @@
 
                 <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_l" />
 
-                <!-- Stat row -->
+                <!-- Stat row. DESIGN SYSTEM v2: standard-tier radius/elevation (these are
+                     compact secondary stats, not hero elements) and a third Gender tile
+                     added - Gender was previously buried as item 2 of 8 in the plain info
+                     list below; surfacing it here gives it the visual prominence called for
+                     alongside weight/age. Backed by the same pet.gender field already read
+                     for the info-row list, just displayed a second time (PetDetailsFragment
+                     .renderPet() gains one line binding it - no new data, no logic change). -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -153,11 +167,11 @@
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/spacing_m"
+                        android:layout_marginEnd="@dimen/spacing_s"
                         android:layout_weight="1"
                         app:cardBackgroundColor="@color/soft_blue"
-                        app:cardCornerRadius="@dimen/corner_radius_card"
-                        app:cardElevation="0dp">
+                        app:cardCornerRadius="@dimen/corner_radius_card_small"
+                        app:cardElevation="@dimen/elevation_level0">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -191,10 +205,11 @@
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/spacing_s"
                         android:layout_weight="1"
                         app:cardBackgroundColor="@color/soft_yellow"
-                        app:cardCornerRadius="@dimen/corner_radius_card"
-                        app:cardElevation="0dp">
+                        app:cardCornerRadius="@dimen/corner_radius_card_small"
+                        app:cardElevation="@dimen/elevation_level0">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -224,19 +239,65 @@
                                 android:textAppearance="@style/TextAppearance.PetCare.Caption" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="@color/soft_lavender"
+                        app:cardCornerRadius="@dimen/corner_radius_card_small"
+                        app:cardElevation="@dimen/elevation_level0">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/spacing_m">
+
+                            <ImageView
+                                android:layout_width="@dimen/icon_size_small"
+                                android:layout_height="@dimen/icon_size_small"
+                                android:contentDescription="@null"
+                                android:src="@drawable/ic_person"
+                                app:tint="@color/petcare_secondary" />
+
+                            <TextView
+                                android:id="@+id/pet_details_gender"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_s"
+                                android:textAppearance="@style/TextAppearance.PetCare.Stat"
+                                android:maxLines="1"
+                                android:ellipsize="end"
+                                tools:text="Male" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/label_gender"
+                                android:textAppearance="@style/TextAppearance.PetCare.Caption" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
 
                 <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_l" />
 
-                <!-- Pet Information (closes the Compose gap: DOB/Gender/Dietary/Allergies/
-                     Vaccination/Toys/Medical/General were stored in Room but never
-                     displayed anywhere in the Compose PetDetailsScreen). -->
+                <!-- Pet Information, split into two groups (closes the Compose gap: DOB/
+                     Gender/Dietary/Allergies/Vaccination/Toys/Medical/General were stored in
+                     Room but never displayed anywhere in the Compose PetDetailsScreen).
+                     DESIGN SYSTEM v2: grouped under "Basic Information" / "Care Details"
+                     rather than one flat 8-row list - the same two group names and card
+                     style the existing Add/Edit Pet form already uses for these exact
+                     fields (fragment_pet_form.xml), so the grouping a user learns while
+                     editing a pet matches what they see when viewing it. Every row keeps
+                     its original id/include, so PetDetailsFragment.kt's bindInfoRow calls
+                     are unaffected. -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/spacing_s"
-                    android:text="@string/section_pet_information"
-                    android:textAppearance="@style/TextAppearance.PetCare.SectionHeader" />
+                    android:text="@string/section_basic_information"
+                    android:textAppearance="@style/TextAppearance.PetCare.CardTitle" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
@@ -251,6 +312,29 @@
 
                         <include layout="@layout/item_pet_info_row" android:id="@+id/row_dob" />
                         <include layout="@layout/item_pet_info_row" android:id="@+id/row_gender" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_l" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_s"
+                    android:text="@string/section_care_details"
+                    android:textAppearance="@style/TextAppearance.PetCare.CardTitle" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.PetCare.Card">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/spacing_l">
+
                         <include layout="@layout/item_pet_info_row" android:id="@+id/row_dietary" />
                         <include layout="@layout/item_pet_info_row" android:id="@+id/row_allergies" />
                         <include layout="@layout/item_pet_info_row" android:id="@+id/row_vaccination" />
@@ -281,25 +365,30 @@
                         android:text="@string/section_pet_routines"
                         android:textAppearance="@style/TextAppearance.PetCare.SectionHeader" />
 
-                    <TextView
+                    <!-- DESIGN SYSTEM v2: promoted to the shared Button.Link style with a
+                         trailing chevron (same treatment as Home's "See all tasks"), rather
+                         than a plain styled TextView. Same id/visibility/click-listener
+                         wiring in PetDetailsFragment.kt is unaffected. -->
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_see_all_routines"
+                        style="@style/Widget.PetCare.Button.Link"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="?attr/selectableItemBackground"
-                        android:padding="@dimen/spacing_xs"
                         android:text="@string/see_all_routines"
-                        android:textColor="@color/primary_coral"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        app:icon="@drawable/ic_chevron_right"
+                        app:iconGravity="textEnd"
+                        app:iconPadding="2dp"
+                        app:iconSize="16dp"
+                        app:iconTint="@color/primary_coral" />
 
                     <ImageButton
                         android:id="@+id/btn_add_routine_from_pet"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
                         android:background="@drawable/bg_dot_indicator"
                         android:contentDescription="@string/add_routine_content_description"
-                        android:padding="7dp"
+                        android:padding="11dp"
                         android:src="@drawable/ic_add"
                         app:tint="@color/white" />
                 </LinearLayout>
@@ -310,7 +399,7 @@
                     android:id="@+id/no_pet_routines_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_card_translucent"
+                    android:background="@drawable/bg_card_outlined"
                     android:padding="@dimen/spacing_l"
                     android:text="@string/no_pet_routines"
                     android:textAppearance="@style/TextAppearance.PetCare.BodySecondary"
@@ -340,11 +429,11 @@
 
                     <ImageButton
                         android:id="@+id/btn_add_task"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
                         android:background="@drawable/bg_dot_indicator"
                         android:contentDescription="@string/add_task_content_description"
-                        android:padding="7dp"
+                        android:padding="11dp"
                         android:src="@drawable/ic_add"
                         app:tint="@color/white" />
                 </LinearLayout>
@@ -355,7 +444,7 @@
                     android:id="@+id/no_tasks_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_card_translucent"
+                    android:background="@drawable/bg_card_outlined"
                     android:padding="@dimen/spacing_l"
                     android:text="@string/no_tasks_today"
                     android:textAppearance="@style/TextAppearance.PetCare.BodySecondary"
@@ -385,17 +474,21 @@
 
                     <ImageButton
                         android:id="@+id/btn_add_healthcare"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
                         android:background="@drawable/bg_dot_indicator"
                         android:contentDescription="@string/add_healthcare_content_description"
-                        android:padding="7dp"
+                        android:padding="11dp"
                         android:src="@drawable/ic_add"
                         app:tint="@color/white" />
                 </LinearLayout>
 
                 <Space android:layout_width="match_parent" android:layout_height="@dimen/spacing_m" />
 
+                <!-- DESIGN SYSTEM v2: added a trailing chevron so this card's existing
+                     tap-through behavior (opens Healthcare for this pet) is visually
+                     obvious, giving it parity with the Expenses card below which already
+                     communicates tappability via its own prompt text. -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/healthcare_card"
                     android:layout_width="match_parent"
@@ -407,24 +500,40 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
                         android:padding="@dimen/spacing_l">
 
-                        <TextView
-                            android:id="@+id/healthcare_next_due"
-                            android:layout_width="match_parent"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="4dp"
-                            android:textAppearance="@style/TextAppearance.PetCare.CardTitle"
-                            android:visibility="gone"
-                            tools:text="Next due: Rabies Shot" />
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/healthcare_summary"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="@style/TextAppearance.PetCare.BodySecondary"
-                            tools:text="No medical records yet." />
+                            <TextView
+                                android:id="@+id/healthcare_next_due"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp"
+                                android:textAppearance="@style/TextAppearance.PetCare.CardTitle"
+                                android:visibility="gone"
+                                tools:text="Next due: Rabies Shot" />
+
+                            <TextView
+                                android:id="@+id/healthcare_summary"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@style/TextAppearance.PetCare.BodySecondary"
+                                tools:text="No medical records yet." />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginStart="@dimen/spacing_s"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="@color/border_color" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -446,11 +555,11 @@
 
                     <ImageButton
                         android:id="@+id/btn_add_expense"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
                         android:background="@drawable/bg_dot_indicator"
                         android:contentDescription="@string/add_expense_content_description"
-                        android:padding="7dp"
+                        android:padding="11dp"
                         android:src="@drawable/ic_add"
                         app:tint="@color/white" />
                 </LinearLayout>
@@ -465,7 +574,7 @@
                     android:focusable="true"
                     app:cardBackgroundColor="@color/soft_lavender"
                     app:cardCornerRadius="@dimen/corner_radius_card"
-                    app:cardElevation="0dp">
+                    app:cardElevation="@dimen/elevation_level0">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -507,7 +616,7 @@
                     android:focusable="true"
                     app:cardBackgroundColor="@color/soft_pink"
                     app:cardCornerRadius="@dimen/corner_radius_card"
-                    app:cardElevation="0dp">
+                    app:cardElevation="@dimen/elevation_level0">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -558,12 +667,12 @@
                 style="@style/Widget.PetCare.Button.Primary" />
         </LinearLayout>
 
-        <ProgressBar
+        <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/pet_details_loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
-            android:indeterminateTint="@color/primary_coral"
-            android:visibility="gone" />
+            android:visibility="gone"
+            style="@style/Widget.PetCare.ProgressIndicator.Circular" />
     </FrameLayout>
 </LinearLayout>
