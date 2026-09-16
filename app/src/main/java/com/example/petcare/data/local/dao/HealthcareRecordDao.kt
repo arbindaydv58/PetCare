@@ -37,4 +37,10 @@ interface HealthcareRecordDao {
 
     @Query("SELECT * FROM healthcare_records WHERE userId = :userId AND petId = :petId AND (date >= :currentDate OR nextDueDate >= :currentDate) ORDER BY date ASC")
     fun observeUpcomingRecordsByPet(userId: String, petId: Long, currentDate: Long): Flow<List<HealthcareRecordEntity>>
+
+    @Query(
+        "SELECT COUNT(*) FROM healthcare_records " +
+            "WHERE userId = :userId AND petId = :petId AND type = :type AND title = :title AND date = :date"
+    )
+    suspend fun countMatchingRecords(userId: String, petId: Long, type: String, title: String, date: Long): Int
 }

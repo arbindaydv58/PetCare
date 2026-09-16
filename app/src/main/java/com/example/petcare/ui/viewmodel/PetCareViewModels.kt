@@ -32,9 +32,11 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 private fun currentUserIdOrEmpty(): String = FirebaseAuth.getInstance().currentUser?.uid ?: ""
 
@@ -792,6 +794,115 @@ class HealthcareRecordViewModel(application: Application) : AndroidViewModel(app
             NotificationScheduler.cancelHealthcareReminder(getApplication(), record)
             repository.deleteHealthcareRecord(record)
             _uiState.update { it.copy(successMessage = "Record deleted successfully") }
+        }
+    }
+
+    fun importVeterinaryRecords() {
+        val userId = currentUserIdOrEmpty()
+        if (userId.isBlank()) {
+            _uiState.update { it.copy(errorMessage = "Please sign in to import records.") }
+            return
+        }
+
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, errorMessage = null, successMessage = null) }
+            try {
+                val externalRecords = repository.fetchExternalVeterinaryRecords()
+                if (externalRecords.isEmpty()) {
+                    _uiState.update { it.copy(isLoading = false, successMessage = "No veterinary records found to import.") }
+                    return@launch
+                }
+
+                val pets = repository.observePets(userId).first()
+                var importedCount = 0
+                var skippedCount = 0
+
+                externalRecords.forEach { external ->
+                    val pet = pets.find {
+                        it.name.equals(external.name, ignoreCase = true) &&
+                            it.species.equals(external.species, ignoreCase = true)
+                    }
+                    if (pet == null) {
+                        skippedCount++
+                        return@forEach
+                    }
+
+                    val vaccinationDate = parseIsoDate(external.vaccinationDate)
+                    if (!external.vaccination.isNullOrBlank() && vaccinationDate != null) {
+                        val added = importRecordIfNew(
+                            userId = userId,
+                            petId = pet.id,
+                            type = "VACCINATION",
+                            title = external.vaccination,
+                            date = vaccinationDate,
+                            nextDueDate = parseIsoDate(external.nextVaccination),
+                            clinicName = external.clinicName
+                        )
+                        if (added) importedCount++ else skippedCount++
+                    }
+
+                    val appointmentDate = parseIsoDate(external.appointmentDate)
+                    if (appointmentDate != null) {
+                        val added = importRecordIfNew(
+                            userId = userId,
+                            petId = pet.id,
+                            type = "VETERINARY_APPOINTMENT",
+                            title = "Veterinary Appointment",
+                            date = appointmentDate,
+                            nextDueDate = null,
+                            clinicName = external.clinicName
+                        )
+                        if (added) importedCount++ else skippedCount++
+                    }
+                }
+
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        successMessage = "Imported $importedCount record(s). Skipped $skippedCount (already imported or no matching pet)."
+                    )
+                }
+            } catch (e: java.io.IOException) {
+                _uiState.update { it.copy(isLoading = false, errorMessage = "No internet connection. Please check your connection and try again.") }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(isLoading = false, errorMessage = "Failed to import veterinary data. Please try again.") }
+            }
+        }
+    }
+
+    private suspend fun importRecordIfNew(
+        userId: String,
+        petId: Long,
+        type: String,
+        title: String,
+        date: Long,
+        nextDueDate: Long?,
+        clinicName: String?
+    ): Boolean {
+        if (repository.healthcareRecordExists(userId, petId, type, title, date)) return false
+        repository.insertHealthcareRecord(
+            HealthcareRecordEntity(
+                userId = userId,
+                petId = petId,
+                type = type,
+                title = title,
+                date = date,
+                nextDueDate = nextDueDate,
+                clinicName = clinicName,
+                notes = "Imported from Veterinary API"
+            )
+        )
+        return true
+    }
+
+    private fun parseIsoDate(value: String?): Long? {
+        if (value.isNullOrBlank()) return null
+        return try {
+            val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
+            format.timeZone = TimeZone.getTimeZone("UTC")
+            format.parse(value)?.time
+        } catch (e: Exception) {
+            null
         }
     }
 

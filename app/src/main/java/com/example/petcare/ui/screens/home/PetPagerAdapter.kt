@@ -5,6 +5,7 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.petcare.R
 import com.example.petcare.data.local.entity.PetEntity
@@ -15,15 +16,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class PetPagerAdapter(
-    private val onPetClick: () -> Unit
+    private val onPetClick: (PetEntity) -> Unit
 ) : RecyclerView.Adapter<PetPagerAdapter.PetViewHolder>() {
 
     private var pets: List<PetEntity> = emptyList()
+    private var nextCheckupByPetId: Map<Long, Long?> = emptyMap()
 
-    fun submitList(newPets: List<PetEntity>) {
+    fun submitList(newPets: List<PetEntity>, nextCheckupByPetId: Map<Long, Long?> = emptyMap()) {
         pets = newPets
+        this.nextCheckupByPetId = nextCheckupByPetId
         notifyDataSetChanged()
     }
 
@@ -33,7 +39,8 @@ class PetPagerAdapter(
     }
 
     override fun onBindViewHolder(holder: PetViewHolder, position: Int) {
-        holder.bind(pets[position], onPetClick)
+        val pet = pets[position]
+        holder.bind(pet, nextCheckupByPetId[pet.id], onPetClick)
     }
 
     override fun getItemCount(): Int = pets.size
@@ -46,14 +53,20 @@ class PetPagerAdapter(
     class PetViewHolder(private val binding: ItemPetPageBinding) : RecyclerView.ViewHolder(binding.root) {
         private var imageJob: Job? = null
 
-        fun bind(pet: PetEntity, onPetClick: () -> Unit) {
-            binding.petName.text = pet.name.uppercase()
+        fun bind(pet: PetEntity, nextCheckupMillis: Long?, onPetClick: (PetEntity) -> Unit) {
+            binding.petName.text = pet.name
             binding.petSpeciesAge.text = binding.root.context.getString(
                 R.string.pet_species_years,
                 pet.species,
                 pet.ageInYears()
             )
-            binding.root.setOnClickListener { onPetClick() }
+            binding.root.setOnClickListener { onPetClick(pet) }
+
+            if (nextCheckupMillis != null) {
+                binding.petCheckupDate.text = SimpleDateFormat("dd MMM", Locale.getDefault()).format(Date(nextCheckupMillis))
+            } else {
+                binding.petCheckupDate.text = binding.root.context.getString(R.string.pet_no_checkup_label)
+            }
 
             cancelImageLoad()
             val imageUri = pet.imageUri

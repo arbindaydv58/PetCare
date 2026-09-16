@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingVertical="@dimen/spacing_xs">
+
+    <FrameLayout
+        android:id="@+id/tool_icon_container"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:background="@drawable/bg_health_icon"
+        android:backgroundTint="@color/soft_blue">
+
+        <ImageView
+            android:id="@+id/tool_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_calendar"
+            app:tint="@color/info_blue" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tool_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_xs"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.PetCare.Caption"
+        android:textColor="@color/primary_text"
+        tools:text="Book Vet" />
+</LinearLayout>

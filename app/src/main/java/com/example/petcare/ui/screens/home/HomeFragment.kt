@@ -13,25 +13,34 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.example.petcare.R
+import com.example.petcare.data.local.entity.HealthcareRecordEntity
 import com.example.petcare.data.local.entity.PetEntity
 import com.example.petcare.databinding.FragmentHomeBinding
 import com.example.petcare.databinding.ItemHomeCareTaskBinding
+import com.example.petcare.databinding.ItemHomeCareToolBinding
+import com.example.petcare.databinding.ItemHomeRecentActivityBinding
 import com.example.petcare.ui.viewmodel.CareTaskUiModel
 import com.example.petcare.ui.viewmodel.CareTaskViewModel
 import com.example.petcare.ui.viewmodel.ExpenseUiState
 import com.example.petcare.ui.viewmodel.ExpenseViewModel
+import com.example.petcare.ui.viewmodel.HealthcareRecordViewModel
 import com.example.petcare.ui.viewmodel.PetViewModel
 import com.example.petcare.ui.viewmodel.ageInYears
 import com.example.petcare.ui.screens.checklist.TasksActivity
 import com.example.petcare.ui.screens.expenses.ExpensesActivity
 import com.example.petcare.ui.screens.healthcare.HealthcareActivity
+import com.example.petcare.ui.screens.healthcare.healthcareColorFor
+import com.example.petcare.ui.screens.healthcare.healthcareIconFor
+import com.example.petcare.ui.screens.healthcare.humanizeHealthcareType
 import com.example.petcare.ui.screens.pet.PetsActivity
+import com.example.petcare.ui.screens.pet.RoutinesActivity
 import com.example.petcare.ui.screens.profile.ProfileActivity
 import com.example.petcare.ui.screens.settings.NotificationSettingsActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -40,6 +49,7 @@ class HomeFragment : Fragment() {
     private val petViewModel: PetViewModel by viewModels()
     private val taskViewModel: CareTaskViewModel by viewModels()
     private val expenseViewModel: ExpenseViewModel by viewModels()
+    private val healthcareViewModel: HealthcareRecordViewModel by viewModels()
 
     private var binding: FragmentHomeBinding? = null
     private var petPagerAdapter: PetPagerAdapter? = null
@@ -50,6 +60,7 @@ class HomeFragment : Fragment() {
     private var allPets: List<PetEntity> = emptyList()
     private var filteredPets: List<PetEntity> = emptyList()
     private var currentPage = 0
+    private var nextCheckupByPetId: Map<Long, Long?> = emptyMap()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,21 +76,28 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val binding = binding ?: return
 
-        val userName = FirebaseAuth.getInstance().currentUser?.displayName
+        val userName = FirebaseAuth.getInstance().currentUser?.displayName?.takeIf { it.isNotBlank() }
             ?: getString(R.string.home_default_user_name)
         binding.homeGreeting.text = getString(R.string.home_greeting_format, userName)
+        binding.homeAvatarInitial.text = userName.take(1).uppercase()
 
         binding.homeNotificationButton.setOnClickListener {
             startActivity(Intent(requireContext(), NotificationSettingsActivity::class.java))
         }
+        binding.homeAvatar.setOnClickListener { openProfile() }
+        binding.homeAddPet.setOnClickListener { openPets() }
 
         setupPetPager(binding)
         setupCategoryChips(binding)
         setupFinanceSnippet(binding)
         setupBottomNavigation(binding)
+        setupCareTools(binding)
 
         binding.homeSeeAllTasks.setOnClickListener {
             openTasks()
+        }
+        binding.homeSeeAllActivity.setOnClickListener {
+            openHealthcare()
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -87,12 +105,155 @@ class HomeFragment : Fragment() {
                 launch { petViewModel.pets.collect { pets -> onPetsChanged(pets) } }
                 launch { taskViewModel.checklistState.collect { state -> renderTasks(state.tasks, state.completedCount, state.totalCount) } }
                 launch { expenseViewModel.uiState.collect { state -> renderFinance(state) } }
+                launch { healthcareViewModel.records.collect { records -> renderRecentActivity(records) } }
+                launch {
+                    healthcareViewModel.upcomingRecords.collect { records ->
+                        nextCheckupByPetId = records
+                            .groupBy { it.petId }
+                            .mapValues { (_, petRecords) -> petRecords.minOf { it.nextDueDate ?: it.date } }
+                        petPagerAdapter?.submitList(filteredPets, nextCheckupByPetId)
+                    }
+                }
             }
         }
     }
 
+    private fun currentSelectedPet(): PetEntity? =
+        filteredPets.getOrNull(currentPage.coerceIn(0, (filteredPets.size - 1).coerceAtLeast(0)))
+
+    private fun openHealthcareAddRecord() {
+        val petId = currentSelectedPet()?.id
+        if (petId != null) {
+            startActivity(
+                Intent(requireContext(), HealthcareActivity::class.java).apply {
+                    putExtra(HealthcareActivity.EXTRA_NEW_RECORD_PET_ID, petId)
+                }
+            )
+        } else {
+            openPets()
+        }
+    }
+
+    private fun setupCareTools(binding: FragmentHomeBinding) {
+        bindCareTool(
+            binding.toolBookVet, R.drawable.ic_stethoscope, R.color.soft_green, R.color.success_green,
+            R.string.home_tool_book_vet
+        ) { openHealthcareAddRecord() }
+
+        bindCareTool(
+            binding.toolTraining, R.drawable.ic_graduation_cap, R.color.soft_lavender, R.color.primary_coral,
+            R.string.home_tool_training
+        ) { startActivity(Intent(requireContext(), RoutinesActivity::class.java)) }
+
+        bindCareTool(
+            binding.toolVaccination, R.drawable.ic_syringe, R.color.soft_green, R.color.success_green,
+            R.string.home_tool_vaccination
+        ) { openHealthcareAddRecord() }
+
+        bindCareTool(
+            binding.toolFoodDiet, R.drawable.ic_food_can, R.color.soft_coral, R.color.primary_coral,
+            R.string.home_tool_food_diet
+        ) { openTasks() }
+
+        bindCareTool(
+            binding.toolRecords, R.drawable.ic_briefcase_medical, R.color.soft_coral, R.color.primary_coral,
+            R.string.home_tool_records
+        ) { openHealthcare() }
+
+        bindCareTool(
+            binding.toolMore, R.drawable.ic_grid_more, R.color.soft_blue, R.color.info_blue,
+            R.string.home_tool_more
+        ) { openProfile() }
+    }
+
+    private fun bindCareTool(
+        tool: ItemHomeCareToolBinding,
+        iconRes: Int,
+        bgColorRes: Int,
+        tintColorRes: Int,
+        labelRes: Int,
+        onClick: () -> Unit
+    ) {
+        tool.toolIcon.setImageResource(iconRes)
+        tool.toolIconContainer.backgroundTintList = android.content.res.ColorStateList.valueOf(
+            androidx.core.content.ContextCompat.getColor(tool.root.context, bgColorRes)
+        )
+        tool.toolIcon.imageTintList = android.content.res.ColorStateList.valueOf(
+            androidx.core.content.ContextCompat.getColor(tool.root.context, tintColorRes)
+        )
+        tool.toolLabel.text = getString(labelRes)
+        tool.root.setOnClickListener { onClick() }
+    }
+
+    private fun renderRecentActivity(records: List<HealthcareRecordEntity>) {
+        val binding = binding ?: return
+        val recent = records.take(3)
+
+        binding.homeRecentActivityContainer.removeAllViews()
+        if (recent.isEmpty()) {
+            binding.homeNoRecentActivity.isVisible = true
+            return
+        }
+        binding.homeNoRecentActivity.isVisible = false
+
+        val inflater = LayoutInflater.from(binding.root.context)
+        recent.forEach { record ->
+            val itemBinding = ItemHomeRecentActivityBinding.inflate(inflater, binding.homeRecentActivityContainer, false)
+            bindActivityItem(itemBinding, record)
+            binding.homeRecentActivityContainer.addView(itemBinding.root)
+        }
+    }
+
+    private fun bindActivityItem(itemBinding: ItemHomeRecentActivityBinding, record: HealthcareRecordEntity) {
+        val petName = allPets.find { it.id == record.petId }?.name ?: "Pet"
+        itemBinding.activityTitle.text = getString(R.string.home_activity_pet_title_format, petName, record.title)
+        itemBinding.activitySubtitle.text = record.clinicName?.takeIf { it.isNotBlank() }
+            ?: record.notes?.takeIf { it.isNotBlank() }
+            ?: humanizeHealthcareType(record.type)
+        itemBinding.activityDate.text = formatActivityDate(record.date)
+
+        itemBinding.activityIcon.setImageResource(healthcareIconFor(record.type))
+        itemBinding.activityIconContainer.backgroundTintList = android.content.res.ColorStateList.valueOf(
+            androidx.core.content.ContextCompat.getColor(itemBinding.root.context, healthcareColorFor(record.type))
+        )
+
+        itemBinding.root.setOnClickListener {
+            startActivity(
+                Intent(requireContext(), HealthcareActivity::class.java).apply {
+                    putExtra(HealthcareActivity.EXTRA_RECORD_ID, record.id)
+                }
+            )
+        }
+    }
+
+    private fun formatActivityDate(millis: Long): String {
+        val today = Calendar.getInstance()
+        val target = Calendar.getInstance().apply { timeInMillis = millis }
+
+        return when {
+            today.get(Calendar.YEAR) == target.get(Calendar.YEAR) &&
+                today.get(Calendar.DAY_OF_YEAR) == target.get(Calendar.DAY_OF_YEAR) ->
+                getString(R.string.home_activity_today_format, SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date(millis)))
+
+            today.get(Calendar.YEAR) == target.get(Calendar.YEAR) &&
+                today.get(Calendar.DAY_OF_YEAR) - target.get(Calendar.DAY_OF_YEAR) == 1 ->
+                getString(R.string.home_activity_yesterday)
+
+            else -> SimpleDateFormat("dd MMM", Locale.getDefault()).format(Date(millis))
+        }
+    }
+
+    private fun renderPetCountSubtitle(binding: FragmentHomeBinding) {
+        binding.homePetCountSubtitle.text = when (allPets.size) {
+            0 -> getString(R.string.home_no_pets_subtitle)
+            1 -> getString(R.string.home_proud_parent_one)
+            else -> getString(R.string.home_proud_parent_many, allPets.size)
+        }
+        binding.homeActivePetsPill.text = getString(R.string.home_active_pets_pill_format, allPets.size)
+    }
+
     private fun setupPetPager(binding: FragmentHomeBinding) {
-        val adapter = PetPagerAdapter(onPetClick = { openPets() })
+        val adapter = PetPagerAdapter(onPetClick = { pet -> openPetDetails(pet.id) })
         petPagerAdapter = adapter
         binding.petPager.adapter = adapter
         binding.petPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -106,6 +267,7 @@ class HomeFragment : Fragment() {
 
     private fun onPetsChanged(pets: List<PetEntity>) {
         allPets = pets
+        binding?.let { renderPetCountSubtitle(it) }
         applyFilter()
     }
 
@@ -140,7 +302,7 @@ class HomeFragment : Fragment() {
                 binding.homeEmptyFilteredPets.root.isVisible = false
                 binding.petPager.isVisible = true
                 currentPage = currentPage.coerceIn(0, filteredPets.lastIndex)
-                petPagerAdapter?.submitList(filteredPets)
+                petPagerAdapter?.submitList(filteredPets, nextCheckupByPetId)
                 if (binding.petPager.currentItem != currentPage) {
                     binding.petPager.setCurrentItem(currentPage, false)
                 }
@@ -294,6 +456,10 @@ class HomeFragment : Fragment() {
 
         itemBinding.taskCompletionIcon.isVisible = taskUi.isCompleted
         itemBinding.taskCompletionPlaceholder.isVisible = !taskUi.isCompleted
+
+        itemBinding.root.setOnClickListener {
+            taskViewModel.toggleTaskCompletion(taskUi, taskViewModel.selectedDate.value)
+        }
     }
 
     private val currencyFormatter: NumberFormat by lazy { NumberFormat.getCurrencyInstance(Locale("en", "NP")) }
@@ -348,6 +514,14 @@ class HomeFragment : Fragment() {
 
     private fun openPets() {
         startActivity(Intent(requireContext(), PetsActivity::class.java))
+    }
+
+    private fun openPetDetails(petId: Long) {
+        startActivity(
+            Intent(requireContext(), PetsActivity::class.java).apply {
+                putExtra(PetsActivity.EXTRA_PET_ID, petId)
+            }
+        )
     }
 
     override fun onDestroyView() {

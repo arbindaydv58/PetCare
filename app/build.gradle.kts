@@ -76,6 +76,8 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.analytics)
     implementation(libs.material)
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.gson)
 
     testImplementation(libs.junit)
     testImplementation(libs.mockk)

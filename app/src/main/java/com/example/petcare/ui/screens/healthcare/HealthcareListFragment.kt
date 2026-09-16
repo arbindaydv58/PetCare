@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -59,6 +60,7 @@ class HealthcareListFragment : Fragment() {
         binding.btnAddHealthcare.isVisible = petId != null
         binding.btnAddHealthcare.setOnClickListener { openAddRecord() }
         binding.btnEmptyAddRecord.setOnClickListener { openAddRecord() }
+        binding.btnImportVetData.setOnClickListener { viewModel.importVeterinaryRecords() }
 
         setupCategoryCards(binding)
         setupFilterChips(binding)
@@ -76,6 +78,21 @@ class HealthcareListFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch { recordsFlow.collect { records -> latestRecords = records; hasLoadedOnce = true; render() } }
                 launch { petViewModel.pets.collect { pets -> latestPets = pets; renderSubtitle(); render() } }
+                launch {
+                    viewModel.uiState.collect { state ->
+                        binding.progressImport.isVisible = state.isLoading
+                        binding.btnImportVetData.isEnabled = !state.isLoading
+
+                        state.successMessage?.let { msg ->
+                            Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+                            viewModel.clearMessages()
+                        }
+                        state.errorMessage?.let { msg ->
+                            Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+                            viewModel.clearMessages()
+                        }
+                    }
+                }
             }
         }
     }

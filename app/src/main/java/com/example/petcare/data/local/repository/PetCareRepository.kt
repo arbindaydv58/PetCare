@@ -12,6 +12,8 @@ import com.example.petcare.data.local.entity.NotificationSettingsEntity
 import com.example.petcare.data.local.entity.PetEntity
 import com.example.petcare.data.local.entity.TaskCompletionEntity
 import com.example.petcare.data.local.relationship.PetWithAllRelations
+import com.example.petcare.data.remote.RetrofitClient
+import com.example.petcare.data.remote.model.ExternalPetRecord
 import kotlinx.coroutines.flow.Flow
 
 class PetCareRepository private constructor(
@@ -112,6 +114,12 @@ class PetCareRepository private constructor(
 
     suspend fun deleteHealthcareRecord(record: HealthcareRecordEntity) =
         database.healthcareRecordDao().deleteRecord(record)
+
+    suspend fun fetchExternalVeterinaryRecords(): List<ExternalPetRecord> =
+        RetrofitClient.vetApiService.getPets()
+
+    suspend fun healthcareRecordExists(userId: String, petId: Long, type: String, title: String, date: Long): Boolean =
+        database.healthcareRecordDao().countMatchingRecords(userId, petId, type, title, date) > 0
 
     fun observeExpenses(userId: String): Flow<List<ExpenseEntity>> =
         database.expenseDao().observeExpensesByUserId(userId)

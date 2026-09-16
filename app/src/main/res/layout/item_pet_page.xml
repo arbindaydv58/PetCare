@@ -5,80 +5,190 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginHorizontal="4dp"
-    app:cardBackgroundColor="@color/primary_coral"
+    app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="@dimen/corner_radius_card"
     app:cardElevation="@dimen/elevation_level1"
-    app:contentPadding="0dp">
+    app:contentPadding="14dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <FrameLayout
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="240dp">
-
-            <ImageView
-                android:id="@+id/pet_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/pet_image_content_description"
-                android:scaleType="centerCrop"
-                android:visibility="gone" />
+            android:layout_height="180dp"
+            app:cardCornerRadius="@dimen/corner_radius_card_small"
+            app:cardElevation="@dimen/elevation_level0"
+            app:contentPadding="0dp">
 
             <FrameLayout
-                android:id="@+id/pet_image_placeholder"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/petcare_overlay_faint">
+                android:layout_height="match_parent">
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_pets"
-                    app:tint="@color/white" />
+                    android:id="@+id/pet_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/pet_image_content_description"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
 
-                <TextView
+                <FrameLayout
+                    android:id="@+id/pet_image_placeholder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/petcare_overlay_faint">
+
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_pets"
+                        app:tint="@color/white" />
+                </FrameLayout>
+
+                <!-- Status pill - PetCare has no archived/inactive pet concept, so every
+                     pet shown here is, by definition, active. Reuses the white-pill +
+                     success_green-dot pattern rather than a new color. -->
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_margin="16dp"
-                    android:background="@drawable/bg_badge_scrim"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="12dp"
+                    android:background="@drawable/bg_circle_white"
+                    android:backgroundTint="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:paddingHorizontal="12dp"
-                    android:paddingVertical="6dp"
-                    android:text="@string/home_primary_pet_badge"
-                    android:textColor="@color/white"
-                    android:textSize="11sp" />
+                    android:paddingVertical="4dp">
+
+                    <View
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/bg_circle_white"
+                        android:backgroundTint="@color/success_green" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="@string/pet_status_active"
+                        android:textColor="@color/primary_text"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
             </FrameLayout>
-        </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/spacing_l">
+            android:gravity="top"
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="4dp">
 
-            <TextView
-                android:id="@+id/pet_name"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:letterSpacing="0.05"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                tools:text="MAX" />
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/pet_species_age"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/pet_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primary_text"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="Cooper" />
+
+                <TextView
+                    android:id="@+id/pet_species_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="13sp"
+                    tools:text="Golden Retriever • 2 yrs" />
+            </LinearLayout>
+
+            <!-- Decorative paw badge - purely a visual accent (mirrors the reference's
+                 mint paw badge next to the pet name), not a control. -->
+            <FrameLayout
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="@dimen/spacing_s"
+                android:background="@drawable/bg_circle_white"
+                android:backgroundTint="@color/soft_green">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_pets"
+                    app:tint="@color/success_green" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/border_color" />
+
+        <LinearLayout
+            android:id="@+id/pet_checkup_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/petcare_text_on_primary_secondary"
-                android:textSize="16sp"
-                tools:text="Dog • 3 Years Old" />
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0.02"
+                    android:text="@string/pet_next_checkup_label"
+                    android:textAppearance="@style/TextAppearance.PetCare.Caption" />
+
+                <TextView
+                    android:id="@+id/pet_checkup_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textColor="@color/primary_text"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:text="Oct 24" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_circle_white"
+                android:backgroundTint="@color/soft_lavender">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_chevron_right"
+                    app:tint="@color/primary_text" />
+            </FrameLayout>
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

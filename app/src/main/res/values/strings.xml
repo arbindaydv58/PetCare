@@ -1,5 +1,35 @@
 <resources>
     <string name="app_name">PetCare</string>
+    <string name="action_import_veterinary_data">Import Veterinary Data</string>
+
+    <!-- Home redesign: proud-parent subtitle, Emergency Care banner, Care Tools grid,
+         Recent Activity feed. All colors reuse existing tokens (primary_coral/soft_*); every
+         tap target below opens a real, existing PetCare screen - no placeholder actions. -->
+    <string name="pet_status_active">Active</string>
+    <string name="pet_next_checkup_label">Next Checkup</string>
+    <string name="pet_no_checkup_label">No upcoming checkup</string>
+    <string name="home_brand_subtitle">Home</string>
+    <string name="home_my_pets_header">My Pets</string>
+    <string name="home_active_pets_pill_format">%1$d Active</string>
+    <string name="home_add_pet_action">Add Pet</string>
+    <string name="home_proud_parent_one">Proud parent of 1 pet</string>
+    <string name="home_proud_parent_many">Proud parent of %1$d pets</string>
+    <string name="home_no_pets_subtitle">Ready to add your first pet</string>
+
+    <string name="home_care_tools_header">Care Tools</string>
+    <string name="home_tool_book_vet">Book Vet</string>
+    <string name="home_tool_vaccination">Vaccination</string>
+    <string name="home_tool_training">Training</string>
+    <string name="home_tool_food_diet">Food &amp; Diet</string>
+    <string name="home_tool_records">Records</string>
+    <string name="home_tool_more">More</string>
+
+    <string name="home_recent_activity_header">Recent Activity</string>
+    <string name="home_see_all_activity">See All</string>
+    <string name="home_no_recent_activity">No recent activity yet</string>
+    <string name="home_activity_pet_title_format">%1$s • %2$s</string>
+    <string name="home_activity_today_format">Today, %1$s</string>
+    <string name="home_activity_yesterday">Yesterday</string>
 
     <!-- Authentication (Stage 1 XML migration) -->
     <string name="auth_logo_content_description">PetCare logo</string>
@@ -30,8 +60,8 @@
     <string name="content_description_toggle_password">Show or hide password</string>
 
     <!-- Home (Stage 2 XML migration) -->
-    <string name="home_welcome_prefix">Welcome back,</string>
-    <string name="home_greeting_format">Hello, %1$s 👋</string>
+    <string name="home_welcome_prefix">Welcome,</string>
+    <string name="home_greeting_format">%1$s 👋</string>
     <string name="home_notification_content_description">Reminders</string>
     <string name="home_default_user_name">Pet Parent</string>
 
@@ -68,7 +98,7 @@
     <string name="category_food">🦴 Food</string>
 
     <string name="bottom_nav_home">Home</string>
-    <string name="bottom_nav_pets">Pets</string>
+    <string name="bottom_nav_pets">My Pets</string>
     <string name="bottom_nav_care">Care</string>
     <string name="bottom_nav_health">Health</string>
     <string name="bottom_nav_profile">Profile</string>

@@ -25,27 +25,40 @@ As of the end of Stage 12, there is no Compose UI code left in the app — `Main
 ## 3. Application Features
 The following core functionalities are implemented in PetCare:
 
-- **Home Screen**: A personalized dashboard with a swipeable pet carousel (`ViewPager2`), category filter chips, quick stats (weight/activity), and a notification shortcut.
+- **Home Screen**: A fixed brand/greeting header (stays pinned while the content below scrolls) showing the signed-in user's real name and pet count, a "My Pets" section (live active-pet count + Add Pet shortcut) above a swipeable pet carousel (`ViewPager2`) with a real "Next Checkup" date per pet, category filter chips, quick stats (weight/activity), a Care Tools quick-action grid (Book Vet, Vaccination, Training, Food & Diet, Records, More — each opens a real existing screen), and a Recent Activity feed of the latest real Healthcare records.
 - **User Authentication**: Secure user registration, login, and password reset powered by Firebase Authentication, ensuring data privacy and individual ownership.
 - **Pet Management**: Full CRUD operations for pet profiles, including name, species, breed, birth date, weight, gender, and permanent photo storage.
 - **Care Routines**: Ability to create recurring care routines (Daily, Weekly, Monthly) tailored to each pet's needs, with a routine-details checklist view.
 - **Care Task Management**: Automatic generation of tasks from routines and manual task creation with scheduling and reminder support.
 - **Task Tracking**: Interactive Daily and Weekly checklists where users can mark tasks as completed for specific occurrences, grouped by category (Feeding, Exercise, Medication, etc.).
 - **Healthcare Records**: Comprehensive logging of medical events such as vaccinations, veterinary appointments, and medication history, with reminder notifications.
+- **Veterinary Data Import**: One-tap import of vaccination and appointment records from an external veterinary API directly into the existing Healthcare records table (see §4 for details).
 - **Expense Tracking**: Categorized spending logs (Food, Health, Grooming, etc.) with a details view and pet-specific summaries.
 - **Budgeting**: Monthly budget settings with visual progress indicators and spending analysis.
 - **Pet Care Delegation**: A module for building structured care instructions and sending them to sitters or family members via SMS, plus a delegation history log.
 - **Notification Settings**: Per-user control over reminder notifications, wired to `AlarmManager`-scheduled alerts that survive device reboot.
 - **Profile**: Account details and sign-out.
 
-## 4. Desirable Feature — Gesture Controls
-The primary desirable feature implemented in PetCare is **Gesture Controls**, covering three distinct task-management gestures:
+## 4. Desirable Features
+
+### 4a. Gesture Controls
+Covering three distinct task-management gestures:
 
 - **Swipe right → Complete**: Marks the current task occurrence as done for that specific date.
 - **Swipe left → Delete**: Opens the same delete-confirmation dialog as the toolbar delete action for that exact task.
 - **Shake device → Reset today's checklist**: Un-completes every task finished today, leaving other days and the task definitions themselves untouched.
 - **How to access it**: The swipe gestures work on any task card in the Daily Checklist (`TasksActivity` / `DailyChecklistFragment`). The shake gesture is active while that screen is resumed.
 - **How it works**: Swipes are implemented with `RecyclerView.ItemTouchHelper.SimpleCallback` (`attachTaskSwipeGestures` in `TaskAdapter.kt`), which always animates the row back to its resting position — the swipe itself never removes the row, it only triggers the toggle/delete action, so deletion still requires explicit confirmation. The shake gesture uses `SensorManager` with `TYPE_ACCELEROMETER` via a small `ShakeEventListener` class (`utils/ShakeDetector.kt`), registered/unregistered in the Fragment's `onResume`/`onPause`, detecting gravity-magnitude spikes with a debounce/cooldown window so one physical shake doesn't fire multiple resets.
+
+### 4b. External Veterinary Data Import (Integration with Other Apps)
+Allows PetCare to import vaccination and appointment information from an external veterinary/pet-care API directly into the app's existing Healthcare records — satisfying the "integration with other apps" requirement without introducing a second, parallel healthcare system.
+
+- **API**: A mock veterinary REST API hosted on [MockAPI.io](https://mockapi.io), returning pet + vaccination + appointment JSON (`name`, `species`, `breed`, `vaccination`, `vaccinationDate`, `nextVaccination`, `appointmentDate`, `clinicName`).
+- **How to access it**: Open **Healthcare** from the bottom navigation (or Home's "Records" Care Tool) and tap **Import Veterinary Data** at the top of the list.
+- **How it works**: `VetApiService` (Retrofit) fetches the external records; `HealthcareRecordViewModel.importVeterinaryRecords()` matches each one to an existing pet by name + species (case-insensitive), converts the vaccination/appointment fields straight into the **existing** `HealthcareRecordEntity` model (`type = "VACCINATION"` / `"VETERINARY_APPOINTMENT"`), and inserts them via the existing `PetCareRepository`/Room pipeline — so imported records appear in the normal Healthcare list alongside manually-entered ones, with no separate "imported records" screen.
+- **Duplicate prevention**: Before inserting, `HealthcareRecordDao.countMatchingRecords()` checks for an existing record with the same user, pet, type, title, and date; matches are skipped and counted rather than duplicated, so tapping Import repeatedly is safe.
+- **Error handling**: Network failures, an empty response, and pets with no match in the app are all reported back through the existing `HealthcareUiState.errorMessage`/`successMessage` fields as a plain-language summary toast (e.g. "Imported 2 record(s). Skipped 1 (already imported or no matching pet).") — no raw exceptions reach the UI.
+- **Networking layer**: `data/remote/` — `VetApiService.kt` (Retrofit interface), `RetrofitClient.kt` (singleton Retrofit/Gson client), `model/ExternalPetRecord.kt` (response DTO). Added dependencies: Retrofit + Gson converter (`libs.versions.toml` → `retrofit-core`, `retrofit-gson`).
 
 ## 5. Technology Stack
 - **Programming Language**: Kotlin 2.3.10 (JVM 17)
@@ -58,6 +71,7 @@ The primary desirable feature implemented in PetCare is **Gesture Controls**, co
 - **Image Handling**: Custom `ImageUtils` using Android `ContentResolver` and internal file storage for persistence
 - **SMS Implementation**: Standard Android `Intent.ACTION_SENDTO` for secure external delegation
 - **Concurrency**: Kotlin Coroutines and `Flow` for reactive data streams
+- **Networking**: Retrofit + Gson converter (`data/remote/`), used for the external veterinary data import (§4b)
 - **Dependency Management**: Gradle Version Catalog (`libs.versions.toml`), AGP 8.10.0
 
 ## 6. Application Architecture
@@ -78,7 +92,7 @@ MainActivity (launcher, exported)
   ├─ signed out            → AuthActivity (Login / Register / Forgot Password fragments)
   ├─ reminder deep link     → TasksActivity (petcare://tasks/{id}) or HealthcareActivity (petcare://healthcare/{id})
   └─ default                → HomeActivity
-        └─ HomeFragment (bottom nav: Home / Pets / Care / Health / Profile)
+        └─ HomeFragment (bottom nav: Home / My Pets / Care / Health / Profile)
               ├─ nav_pets   → PetsActivity      (MyPetsFragment → PetDetailsFragment → PetFormFragment,
               │                                   MyRoutinesFragment → RoutineDetailsFragment → RoutineFormFragment)
               ├─ nav_care   → TasksActivity     (DailyChecklistFragment / WeeklyChecklistFragment → TaskFormFragment)
@@ -100,7 +114,7 @@ PetCare uses a relational local database via Room:
 
 ## 9. Main Screens
 - **Login / Register / Forgot Password** (`AuthActivity`): Entry point for user authentication.
-- **Home** (`HomeActivity`): Pet carousel, category chips, quick stats, notification shortcut, bottom navigation.
+- **Home** (`HomeActivity`): Fixed brand/greeting header, My Pets section, pet carousel, category chips, quick stats, Care Tools grid, Recent Activity feed, bottom navigation.
 - **My Pets / Pet Details / Add-Edit Pet** (`PetsActivity`): Grid/list of pets, per-pet detail view, and the pet form.
 - **My Routines / Routine Details / Add-Edit Routine** (`RoutinesActivity`): Recurring care-routine management.
 - **Daily / Weekly Checklist / Task Form** (`TasksActivity`): Gesture-enabled task tracking (see §4).
@@ -137,11 +151,13 @@ The project includes a testing suite in `src/test` and `src/androidTest`:
 ## 14. Project Structure
 ```text
 com.example.petcare/
-├── data/local/
-│   ├── entity/          # Room entities (Pet, CareRoutine, CareTask, TaskCompletion, HealthcareRecord, Expense, Budget, Delegation, NotificationSettings)
-│   ├── dao/              # Room DAOs, one per entity
-│   ├── relationship/     # PetWithRelations composite query model
-│   └── repository/       # PetCareRepository - single source of truth
+├── data/
+│   ├── local/
+│   │   ├── entity/        # Room entities (Pet, CareRoutine, CareTask, TaskCompletion, HealthcareRecord, Expense, Budget, Delegation, NotificationSettings)
+│   │   ├── dao/            # Room DAOs, one per entity
+│   │   ├── relationship/   # PetWithRelations composite query model
+│   │   └── repository/     # PetCareRepository - single source of truth
+│   └── remote/            # VetApiService, RetrofitClient, ExternalPetRecord - external veterinary API (§4b)
 ├── receivers/            # NotificationReceiver, BootReceiver
 ├── ui/
 │   ├── screens/
@@ -174,6 +190,8 @@ com.example.petcare/
 ## 17. Known Issues
 - **Photo Permissions**: On some Android versions, the app may require a restart after the first photo upload to correctly render the internal file path in all screens.
 - **OEM font rendering**: On some MIUI devices, unstyled small `TextView`s can render with their glyph tops clipped due to an OEM system-font metrics mismatch; screens affected by this are given a small explicit top padding as a buffer (see Home's welcome label).
+- **Veterinary import pet-matching**: `importVeterinaryRecords()` matches an external record to a pet by exact case-insensitive name + species; a pet that doesn't exist yet in PetCare (or whose name/species doesn't match the external record) is silently skipped and only counted, not reported per-pet.
+- **No automated tests yet** for the veterinary data import (§4b) or the redesigned Home dashboard — both were verified with `assembleDebug`/manual on-device checks only; unit/instrumentation coverage is a good next addition alongside the existing suite in §13.
 
 ## 18. Future Improvements
 - **Cloud Sync**: Moving Room data to Firebase Firestore for cross-device synchronization.
@@ -192,5 +210,6 @@ com.example.petcare/
 | Item Editing/Deletion | Unified edit forms and confirmation dialogs across every module. |
 | SMS Delegation | `DelegationActivity`, via `Intent.ACTION_SENDTO` and `SmsMessageGenerator`. |
 | Desirable Feature | **Gesture Controls**: swipe right to complete, swipe left to delete, shake to reset today's checklist. |
+| Integration with Other Apps | **External Veterinary Data Import**: imports vaccination/appointment records from a mock veterinary REST API into the existing Healthcare records (§4b). |
 | Data Persistence | Local Room Database with relational integrity and per-user data isolation. |
 | UI Design | Native XML layouts with Material Components (Material 3 theming). |

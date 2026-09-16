@@ -62,6 +62,36 @@
             android:textAppearance="@style/TextAppearance.PetCare.BodySecondary"
             tools:text="Health records for Max" />
 
+        <!-- External Integration: lets the user pull vaccination/appointment records from the
+             mock veterinary API into the existing healthcare_records table. Uses the same
+             uiState (isLoading/successMessage/errorMessage) HealthcareRecordViewModel already
+             exposes for manual record save/delete. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_l"
+            android:layout_marginBottom="@dimen/spacing_s"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_import_vet_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_import_veterinary_data"
+                app:icon="@drawable/ic_sync"
+                style="@style/Widget.PetCare.Button.Secondary" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progress_import"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="@dimen/spacing_s"
+                android:visibility="gone"
+                style="@style/Widget.PetCare.ProgressIndicator.Circular"
+                tools:visibility="visible" />
+        </LinearLayout>
+
         <!-- DESIGN SYSTEM v2: health summary stat row ("Health summary cards" from the
              approved spec). Both counts are computed in HealthcareListFragment.render()
              purely from latestRecords, a list the fragment already collects and holds -
