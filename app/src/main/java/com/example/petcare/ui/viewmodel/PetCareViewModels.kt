@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -1154,6 +1155,10 @@ class DelegationViewModel(application: Application) : AndroidViewModel(applicati
     private val _selectedPetId = MutableStateFlow<Long?>(null)
     private val _selectedDate = MutableStateFlow(DateUtils.startOfDay(System.currentTimeMillis()))
 
+    private var currentPet: PetEntity? = null
+    private var currentHealthRecords: List<HealthcareRecordEntity> = emptyList()
+    private var currentRoutines: List<CareRoutineEntity> = emptyList()
+
     val history: StateFlow<List<DelegationEntity>> = currentUserIdFlow
         .flatMapLatest { userId -> repository.observeDelegations(userId) }
         .stateIn(
@@ -1164,6 +1169,30 @@ class DelegationViewModel(application: Application) : AndroidViewModel(applicati
 
     init {
         observeTasksForDelegation()
+        observePetDetailsForDelegation()
+    }
+
+    // Feeds the SMS message with the selected pet's real allergies/medical notes,
+    // full healthcare record history, and care routines - so a sitter/family member
+    // gets everything relevant, not just the day's task checklist.
+    private fun observePetDetailsForDelegation() {
+        viewModelScope.launch {
+            combine(currentUserIdFlow, _selectedPetId) { userId, petId -> userId to petId }
+                .flatMapLatest { (userId, petId) ->
+                    if (userId.isBlank() || petId == null) {
+                        kotlinx.coroutines.flow.flowOf(Triple<PetEntity?, List<HealthcareRecordEntity>, List<CareRoutineEntity>>(null, emptyList(), emptyList()))
+                    } else {
+                        repository.observeHealthcareRecordsForPet(userId, petId)
+                            .combine(repository.observeCareRoutinesForPet(userId, petId)) { records, routines -> records to routines }
+                            .map { (records, routines) -> Triple(repository.getPet(userId, petId), records, routines) }
+                    }
+                }.collectLatest { (pet, records, routines) ->
+                    currentPet = pet
+                    currentHealthRecords = records
+                    currentRoutines = routines
+                    updateGeneratedMessage()
+                }
+        }
     }
 
     private fun observeTasksForDelegation() {
@@ -1229,10 +1258,13 @@ class DelegationViewModel(application: Application) : AndroidViewModel(applicati
         } else "My Pets"
 
         val msg = SmsMessageGenerator.generateDelegationMessage(
-            state.recipientName,
-            petName,
-            _selectedDate.value,
-            selectedTasks
+            recipientName = state.recipientName,
+            petName = petName,
+            dateMillis = _selectedDate.value,
+            selectedTasks = selectedTasks,
+            pet = currentPet,
+            healthRecords = currentHealthRecords,
+            routines = currentRoutines
         )
         _uiState.update { it.copy(generatedMessage = msg) }
     }
